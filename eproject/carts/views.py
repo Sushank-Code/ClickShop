@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect,get_object_or_404,HttpResponse
 from store.models import Product
 from carts.models import Cart
 from carts.models import CartItem
@@ -13,6 +13,11 @@ def _cart_id (request):                      # helper function = private & inter
     return cart
 
 def add_cart(request,product_id):
+    color = request.GET['color']
+    size = request.GET['size']
+    return HttpResponse(color+size)
+    exit()
+
     product = Product.objects.get(id = product_id)
 
     # This Make sure user has a cart tied to their session
@@ -50,7 +55,7 @@ def remove_all(request,product_id):
     item.delete()
     return redirect('cart')
 
-def cart(request,total = 0,quantity = 0,cart_items = None):
+def cart(request,total = 0,quantity = 0,tax=0,grand_total = 0 ,cart_items = None):
     try:
         cart = Cart.objects.get(cart_id = _cart_id(request))
         cart_items = CartItem.objects.filter(cart = cart, is_active = True)
