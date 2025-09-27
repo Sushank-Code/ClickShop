@@ -12,13 +12,14 @@
                 <aside class="col-md-6">
                     <article class="gallery-wrap">
                         <div class="img-big-wrap">
-                            <a href="#"><img src="{{ single_product.image.url }}"></a>
+                            <a><img src="{{ single_product.image.url }}"></a>
                         </div> <!-- img-big-wrap.// -->
 
                     </article> <!-- gallery-wrap .end// -->
                 </aside>
                 <main class="col-md-6 border-left">
-                    <form action="{% url 'add_cart' single_product.id %}" method="get">
+                    <form action="{% url 'add_cart' single_product.id %}" method="post">
+                        {% csrf_token %}
                         <article class="content-body">
 
                             <h2 class="title">{{ single_product.product_name }}</h2>
@@ -29,27 +30,28 @@
 
                             <p>{{ single_product.description }}</p>
 
-
+ 
                             <hr>
                             <div class="row">
                                 <div class="item-option-select">
                                     <h6>Choose Color</h6>
-                                    <select name="color" class="form-control">
-                                        <option value="red">Red</option>
-                                        <option value="blue">Blue</option>
-                                        <option value="green">Green</option>
-                                        <option value="yellow">Yellow</option>
+                                    <select name="color" class="form-control" required>
+                                        <option value="" disabled selected>Select</option>
+                                        {% for color in single_product.variation_set.colors %}
+                                        <option value="{{ color.variation_value | lower }}">{{ color.variation_value | capfirst}}</option>
+                                        {% endfor %}
+
                                     </select>
                                 </div>
                             </div> <!-- row.// -->
                             <div class="row">
                                 <div class="item-option-select">
                                     <h6>Select Size</h6>
-                                    <select name="size" class="form-control">
-                                        <option value="small">Small</option>
-                                        <option value="medium">Medium</option>
-                                        <option value="large">Large</option>
-                                        <option value="extra_large">Extra Large</option>
+                                    <select name="size" class="form-control" required>
+                                        <option value="" disabled selected>Select</option>
+                                        {% for size in single_product.variation_set.sizes %}
+                                        <option value="{{ size.variation_value | lower }}">{{ size.variation_value | capfirst }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div> <!-- row.// -->
@@ -60,12 +62,12 @@
                                 <a href="#" class="btn  btn-success disabled"> <span class="text">Added to Cart</span>
                                     <i class="fas fa-check"></i> </a>
 
-                                <a href="{% url 'cart' %}" class="btn  btn-outline-primary viewcart mt-1"> <span class="text">View
+                                <a href="{% url 'cart' %}" class="btn  btn-outline-primary viewcart mt-1"> <span
+                                        class="text">View
                                         Cart</span>
                                     <i class="fas fa-eye"></i> </a>
                                 {% else %}
-                                <button type="submit" class="btn  btn-primary"> <span
-                                        class="text">Add to Cart</span>
+                                <button type="submit" class="btn  btn-primary"> <span class="text">Add to Cart</span>
                                     <i class="fas fa-shopping-cart"></i> </button>
                                 {% endif %}
                                 {% endif %}

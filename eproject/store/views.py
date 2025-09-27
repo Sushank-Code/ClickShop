@@ -7,13 +7,14 @@ from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 from django.db.models import Q
 
 # Create your views here.
-
+ 
 def StoreView(request,category_slug=None):
 
     if category_slug :
-        categories = get_object_or_404(Category, slug = category_slug)  # get_object_or_404 gives single obj
+        categories = get_object_or_404(Category, slug = category_slug) # single obj
         # print(categories)
-        products = Product.objects.filter(category = categories,is_available = True) # filter gives multi obj
+        products = Product.objects.filter(category = categories,is_available = True) 
+
         paginator = Paginator(products,2)
         page = request.GET.get('page')
         paged_products = paginator.get_page(page)  
@@ -65,4 +66,4 @@ def search(request):
         'product_count' : product_count
     }
     
-    return render(request,'store/store.html',context)
+    return render(request,'store/store.html',context) 
