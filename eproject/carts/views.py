@@ -37,14 +37,24 @@ def add_cart(request,product_id):
     # adding product to cart item 
     try:
         cart_item = CartItem.objects.get(product = product ,cart = cart)
+        if len(product_variation) > 0 :
+            cart_item.variations.clear()
+            for variation in product_variation :  # multiple varation here
+                cart_item.variations.add(variation)
+
         cart_item.quantity += 1
         cart_item.save()
+
     except CartItem.DoesNotExist:        # If cart not exist , place the product in cart
         cart_item = CartItem.objects.create(
             product = product,
             quantity = 1,
             cart = cart,
         )
+        if len(product_variation) > 0 :
+            cart_item.variations.clear()
+            for variation in product_variation :  # multiple varation here
+                cart_item.variations.add(variation)
     return redirect('cart')
 
 def remove_cart(request,product_id):
