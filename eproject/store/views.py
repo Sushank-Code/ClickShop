@@ -37,8 +37,7 @@ def product_detail(request,category_slug=None,product_slug=None):
         if category_slug and product_slug:
             
             categories = get_object_or_404(Category, slug=category_slug)
-            single_product = get_object_or_404(Product, slug=product_slug, category=categories,is_available=True)  
-            in_cart = CartItem.objects.filter(cart__cart_id = _cart_id(request), product = single_product).exists()      
+            single_product = get_object_or_404(Product, slug=product_slug, category=categories,is_available=True)       
         else:
             single_product = None
     
@@ -47,7 +46,6 @@ def product_detail(request,category_slug=None,product_slug=None):
     
     context = {
         'single_product' : single_product,
-        'in_cart' : in_cart
     }
     return render(request,'store/product_detail.html',context)
 
