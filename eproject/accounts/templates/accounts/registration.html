@@ -1,0 +1,107 @@
+{% extends 'kartapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="section-content padding-y">
+
+    <!-- ============================ COMPONENT REGISTER   ================================= -->
+    <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+        <article class="card-body">
+            <header class="mb-4">
+                <h4 class="card-title">Sign up</h4>
+            </header>
+            <form action="{% url 'Registration' %}" method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label for="{{ rform.first_name.id_for_label }}">{{ rform.first_name.label }}</label>
+                        {% comment %} <input type="text" class="form-control" placeholder=""> {% endcomment %}
+                        {% if rform.first_name.field.required %}
+                        <span class="text-danger">*</span>
+                        {% endif %}
+                        {{ rform.first_name }}
+                        {% if rform.first_name.errors %}
+                        {% for e in rform.first_name.errors %}
+                        <span class="text-danger"> {{ e }}</span>
+                        {% endfor %}
+                        {% endif %}
+                    </div> <!-- form-group end.// -->
+                    <div class="col form-group">
+                        <label for="{{ rform.last_name.id_for_label }}">{{ rform.last_name.label }}</label>
+                        {% if rform.last_name.field.required %}
+                        <span class="text-danger">*</span>
+                        {% endif %}
+                        {{ rform.last_name }}
+                    </div> <!-- form-group end.// -->
+                </div> <!-- form-row end.// -->
+
+                <div class="form-group ">
+                    <label for="{{ rform.phone.id_for_label }}">{{ rform.phone.label }}</label>
+                    {% if rform.phone.field.required %}
+                    <span class="text-danger">*</span>
+                    {% endif %}
+                    {{ rform.phone }}
+                    {% if rform.phone.errors %}
+                    {% for e in rform.phone.errors %}
+                    <span class="text-danger"> {{ e }}</span>
+                    {% endfor %}
+                    {% endif %}
+                </div> <!-- form-group end.// -->
+
+                <div class="form-group">
+                    <label for="{{ rform.email.id_for_label }}">{{ rform.email.label }}</label>
+                    {% if rform.email.field.required %}
+                    <span class="text-danger">*</span>
+                    {% endif %}
+                    {{ rform.email }}
+                    {% if rform.email.errors %}
+                    {% for e in rform.email.errors %}
+                    <span class="text-danger"> {{ e }}</span>
+                    {% endfor %}
+                    {% endif %}
+                    <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div> <!-- form-group end.// -->
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="{{ rform.password1.id_for_label }}">{{ rform.password1.label }}</label>
+                        {% if rform.password1.field.required %}
+                        <span class="text-danger">*</span>
+                        {% endif %}
+                        {{ rform.password1 }}
+                        {% if rform.password1.errors %}
+                        {% for e in rform.password1.errors %}
+                        <span class="text-danger"> -  {{ e }}</span><br>
+                        {% endfor %}
+                        {% endif %}
+                    </div> <!-- form-group end.// -->
+                    <div class="form-group col-md-6">
+                        <label for="{{ rform.password2.id_for_label }}">{{ rform.password2.label }}</label>
+                        {% if rform.password2.field.required %}
+                        <span class="text-danger">*</span>
+                        {% endif %}
+                        {{ rform.password2 }}
+                        {% if rform.password2.errors %}
+                        {% for e in rform.password2.errors %}
+                        <span class="text-danger">- {{ e }}</span><br>
+                        {% endfor %}
+                        {% endif %}
+                    </div> <!-- form-group end.// -->
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Register </button>
+                </div> <!-- form-group// -->
+
+            </form>
+        </article><!-- card-body.// -->
+    </div> <!-- card .// -->
+    <p class="text-center mt-4">Have an account? <a href="">Log In</a></p>
+    <br><br>
+    <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
+
+
+</section>
+
+{% endblock content %}

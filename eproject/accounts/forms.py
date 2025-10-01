@@ -1,0 +1,86 @@
+from django import forms
+from accounts.models import Account
+from django.contrib.auth.forms import UserCreationForm
+from django.core.validators import EmailValidator
+
+class RegistrationForm(UserCreationForm):
+
+    # override form fields to set widgets
+    password1 = forms.CharField(
+        label='Create Password',
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Enter password',
+        })
+    )
+    password2 = forms.CharField(
+        label='Confirm Password',
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Repeat password',
+        })
+    )
+    # For required (to set false)
+    last_name = forms.CharField(
+        label="Last Name", 
+        required=False,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter your  last name', 
+        })
+    )
+ 
+    class Meta:
+        model = Account
+        fields = ["first_name","last_name","phone","email","password1","password2"]
+
+        labels = {
+            'first_name' : 'First Name',
+            'email' : 'Email Address',
+            'phone' : 'Phone Number',
+        } 
+
+        widgets = {
+            'first_name':forms.TextInput(attrs={
+                'placeholder':'Enter your first name',
+            }),
+            'email':forms.EmailInput(attrs={
+                'placeholder':'Valid Email Address',
+                'autocomplete':"off"
+            }),
+            'phone':forms.TextInput(attrs={
+                'placeholder':'Enter the phone number',
+            }),
+        }
+
+    # To apply widget for every field and single field 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+
+    # Validation
+    def clean_email(self):   
+        email = self.cleaned_data.get('email')
+
+        if Account.objects.filter(email = email).exists():
+            raise forms.ValidationError("Email already exists")
+    
+        validator = EmailValidator(message="Enter a valid email address")
+        try:
+            validator(email)
+        except forms.ValidationError as e:
+            raise forms.ValidationError(e.message)
+        
+        return email
+    
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+
+        if Account.objects.filter(phone = phone).exists():
+            raise forms.ValidationError("Phone number already registered")
+        
+        if not phone.isdigit():
+            raise forms.ValidationError("Phone must contain only numbers")
+
+        if len(phone) != 10 :
+            raise forms.ValidationError("Phone number must be 10 digits")
+        
+        return phone

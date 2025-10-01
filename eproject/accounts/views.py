@@ -1,3 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from accounts.forms import RegistrationForm
 
 # Create your views here.
+def registration(request):
+    if request.method == "POST":
+        rform = RegistrationForm(request.POST)
+        if rform.is_valid():
+            rform.save()
+            # messages.success(request,"Registration Successful! You can Login Now")
+            return redirect('Login')
+    else:
+        rform = RegistrationForm()
+    context = {
+        'rform' : rform
+    }
+    return render(request,'accounts/registration.html',context)
+
+
+def login(request):
+    return render(request,'accounts/login.html')
+
+def logout_view(request):
+    pass

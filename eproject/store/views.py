@@ -1,8 +1,6 @@
 from django.shortcuts import render,get_object_or_404,HttpResponse,redirect
 from kartapp.models import Category
 from store.models import Product
-from carts.models import CartItem
-from carts.views import _cart_id
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 from django.db.models import Q
 
