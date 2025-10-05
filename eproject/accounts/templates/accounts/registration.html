@@ -72,7 +72,7 @@
                         {{ rform.password1 }}
                         {% if rform.password1.errors %}
                         {% for e in rform.password1.errors %}
-                        <span class="text-danger"> -  {{ e }}</span><br>
+                        <li class="text-danger">{{ e }}</li>
                         {% endfor %}
                         {% endif %}
                     </div> <!-- form-group end.// -->
@@ -84,7 +84,7 @@
                         {{ rform.password2 }}
                         {% if rform.password2.errors %}
                         {% for e in rform.password2.errors %}
-                        <span class="text-danger">- {{ e }}</span><br>
+                        <li class="text-danger">{{ e }}</li>
                         {% endfor %}
                         {% endif %}
                     </div> <!-- form-group end.// -->

@@ -6,8 +6,8 @@ def registration(request):
     if request.method == "POST":
         rform = RegistrationForm(request.POST)
         if rform.is_valid():
+            username = rform.cleaned_data['email'].split("@")[0]
             rform.save()
-            # messages.success(request,"Registration Successful! You can Login Now")
             return redirect('Login')
     else:
         rform = RegistrationForm()
