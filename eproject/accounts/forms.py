@@ -18,35 +18,28 @@ class RegistrationForm(UserCreationForm):
             'placeholder': 'Repeat password',
         })
     )
-    # For required (to set false)
-    last_name = forms.CharField(
-        label="Last Name", 
-        required=False,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'Enter your  last name', 
-        })
-    )
- 
+  
     class Meta:
         model = Account
-        fields = ["first_name","last_name","phone","email","password1","password2"]
+        fields = ["username","phone","email","password1","password2"]
 
         labels = {
-            'first_name' : 'First Name',
-            'email' : 'Email Address',
+            'username' : 'UserName',
             'phone' : 'Phone Number',
+            'email' : 'Email Address',
         } 
 
         widgets = {
-            'first_name':forms.TextInput(attrs={
-                'placeholder':'Enter your first name',
-            }),
-            'email':forms.EmailInput(attrs={
-                'placeholder':'Valid Email Address',
-                'autocomplete':"off"
+            'username':forms.TextInput(attrs={
+                'placeholder':'Enter your username',
+                'autocomplete':'off',
             }),
             'phone':forms.TextInput(attrs={
                 'placeholder':'Enter the phone number',
+            }),
+            'email':forms.EmailInput(attrs={
+                'placeholder':'Valid Email Address',
+                'autocomplete':'off',
             }),
         }
 
@@ -56,7 +49,21 @@ class RegistrationForm(UserCreationForm):
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
 
+        # Remove autofocus from all fields
+        for field in self.fields.values():
+            if 'autofocus' in field.widget.attrs:
+                del field.widget.attrs['autofocus']
+
     # Validation
+    
+    def clean_username(self):   
+        username = self.cleaned_data.get('username')
+
+        if Account.objects.filter(username=username).exists():
+            raise forms.ValidationError("UserName already taken")
+    
+        return username
+    
     def clean_email(self):   
         email = self.cleaned_data.get('email')
 

@@ -1,6 +1,10 @@
 {% extends 'kartapp/base.html' %}
 {% load static %}
 
+{% block js %}
+<script src="{% static 'kartapp/js/register.js' %}" type="text/javascript"></script>
+{% endblock js %}
+
 {% block content %}
 
 <section class="section-content padding-y">
@@ -8,85 +12,101 @@
     <!-- ============================ COMPONENT REGISTER   ================================= -->
     <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
         <article class="card-body">
+            {% include 'kartapp/includes/alert.html' %}
             <header class="mb-4">
                 <h4 class="card-title">Sign up</h4>
             </header>
             <form action="{% url 'Registration' %}" method="post">
                 {% csrf_token %}
-                <div class="form-row">
-                    <div class="col form-group">
-                        <label for="{{ rform.first_name.id_for_label }}">{{ rform.first_name.label }}</label>
-                        {% comment %} <input type="text" class="form-control" placeholder=""> {% endcomment %}
-                        {% if rform.first_name.field.required %}
-                        <span class="text-danger">*</span>
-                        {% endif %}
-                        {{ rform.first_name }}
-                        {% if rform.first_name.errors %}
-                        {% for e in rform.first_name.errors %}
-                        <span class="text-danger"> {{ e }}</span>
-                        {% endfor %}
-                        {% endif %}
-                    </div> <!-- form-group end.// -->
-                    <div class="col form-group">
-                        <label for="{{ rform.last_name.id_for_label }}">{{ rform.last_name.label }}</label>
-                        {% if rform.last_name.field.required %}
-                        <span class="text-danger">*</span>
-                        {% endif %}
-                        {{ rform.last_name }}
-                    </div> <!-- form-group end.// -->
-                </div> <!-- form-row end.// -->
+                <div class="form-group ">
+                    <label for="{{ rform.username.id_for_label }}">{{ rform.username.label }}</label>
 
+                    {% if rform.username.field.required %}
+                    <span class="text-danger">*</span>
+                    {% endif %}
+
+                    {{ rform.username }}
+
+                    {% if rform.username.errors %}
+                    {% for e in rform.username.errors %}
+                    <span class="text-danger"> {{ e }}</span>
+                    {% endfor %}
+                    {% endif %}
+
+                </div> <!-- form-group end.// -->
                 <div class="form-group ">
                     <label for="{{ rform.phone.id_for_label }}">{{ rform.phone.label }}</label>
+
                     {% if rform.phone.field.required %}
                     <span class="text-danger">*</span>
                     {% endif %}
+
                     {{ rform.phone }}
+
                     {% if rform.phone.errors %}
                     {% for e in rform.phone.errors %}
                     <span class="text-danger"> {{ e }}</span>
                     {% endfor %}
                     {% endif %}
+
                 </div> <!-- form-group end.// -->
 
                 <div class="form-group">
                     <label for="{{ rform.email.id_for_label }}">{{ rform.email.label }}</label>
+
                     {% if rform.email.field.required %}
                     <span class="text-danger">*</span>
                     {% endif %}
+
                     {{ rform.email }}
+
                     {% if rform.email.errors %}
                     {% for e in rform.email.errors %}
                     <span class="text-danger"> {{ e }}</span>
                     {% endfor %}
                     {% endif %}
                     <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+
                 </div> <!-- form-group end.// -->
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="{{ rform.password1.id_for_label }}">{{ rform.password1.label }}</label>
+
                         {% if rform.password1.field.required %}
                         <span class="text-danger">*</span>
                         {% endif %}
+
+                        <div class="input-group">
                         {{ rform.password1 }}
+                        <span class="input-group-text pw1" style="cursor: pointer;"><i class="fa-solid fa-eye eye1"></i>
+                        </div>
+
                         {% if rform.password1.errors %}
                         {% for e in rform.password1.errors %}
                         <li class="text-danger">{{ e }}</li>
                         {% endfor %}
                         {% endif %}
+
                     </div> <!-- form-group end.// -->
                     <div class="form-group col-md-6">
                         <label for="{{ rform.password2.id_for_label }}">{{ rform.password2.label }}</label>
+
                         {% if rform.password2.field.required %}
                         <span class="text-danger">*</span>
                         {% endif %}
+
+                        <div class="input-group">
                         {{ rform.password2 }}
+                        <span class="input-group-text pw2" style="cursor: pointer;"><i class="fa-solid fa-eye eye2"></i></span>
+                        </div>
+
                         {% if rform.password2.errors %}
                         {% for e in rform.password2.errors %}
                         <li class="text-danger">{{ e }}</li>
                         {% endfor %}
                         {% endif %}
+
                     </div> <!-- form-group end.// -->
                 </div>
 
@@ -97,7 +117,7 @@
             </form>
         </article><!-- card-body.// -->
     </div> <!-- card .// -->
-    <p class="text-center mt-4">Have an account? <a href="">Log In</a></p>
+    <p class="text-center mt-4">Have an account? <a href="{% url 'Signin' %}">Log In</a></p>
     <br><br>
     <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
 

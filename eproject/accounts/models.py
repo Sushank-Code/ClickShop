@@ -20,7 +20,7 @@ class MyAccountManager(BaseUserManager):
             last_name = last_name,
         )
         user.set_password(password)
-        user.save(using=self.db)
+        user.save(using=self._db)
         return user
     
     # Create a super user
@@ -37,7 +37,7 @@ class MyAccountManager(BaseUserManager):
         user.is_staff = True
         user.is_superuser = True
       
-        user.save(using=self.db)
+        user.save(using=self._db)
         return user
 
 class Account(AbstractBaseUser,PermissionsMixin):

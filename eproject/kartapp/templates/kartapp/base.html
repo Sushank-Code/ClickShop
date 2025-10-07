@@ -12,11 +12,7 @@
 
     <link href="{% static 'kartapp/images/favicon.ico' %}" rel="shortcut icon" type="image/x-icon">
 
-    <!-- jQuery -->
-    <script src="{% static 'kartapp/js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
-
     <!-- Bootstrap4 files-->
-    <script src="{% static 'kartapp/js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
     <link href="{% static 'kartapp/css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
 
     <!-- Font awesome 5 -->
@@ -26,11 +22,30 @@
     <link href="{% static 'kartapp/css/ui.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'kartapp/css/responsive.css' %}" rel="stylesheet"
         media="only screen and (max-width: 1200px)" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    {% include 'kartapp/includes/header.html' %}
+
+    {% block content %}
+    {% comment %} content {% endcomment %}
+    {% endblock content %}
+
+    {% include 'kartapp/includes/footer.html' %}
+
+    <!-- jQuery -->
+    <script src="{% static 'kartapp/js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
+
+    <script src="{% static 'kartapp/js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
 
     <!-- custom javascript -->
     <script src="{% static 'kartapp/js/script.js' %}" type="text/javascript"></script>
 
+    {% block js %}{% endblock js %}
+    
     <script type="text/javascript">
+    
         /// some script
 
         // jquery ready start
@@ -41,16 +56,6 @@
         // jquery end
     </script>
 
-</head>
-
-<body>  
-    {% include 'kartapp/includes/header.html' %}
-
-    {% block content %}
-        {% comment %} content {% endcomment %}
-    {% endblock content %}
-
-    {% include 'kartapp/includes/footer.html' %}
 </body>
 
 </html>
