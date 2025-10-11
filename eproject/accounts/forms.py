@@ -1,6 +1,6 @@
 from django import forms
 from accounts.models import Account
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,PasswordResetForm,SetPasswordForm
 from django.core.validators import EmailValidator
 
 class RegistrationForm(UserCreationForm):
@@ -43,7 +43,7 @@ class RegistrationForm(UserCreationForm):
             }),
         }
 
-    # To apply widget for every field and single field 
+    # To apply widget for every field and single field (also hidden)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
@@ -91,3 +91,29 @@ class RegistrationForm(UserCreationForm):
             raise forms.ValidationError("Phone number must be 10 digits")
         
         return phone
+    
+# Password reset
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            "class": "form-control",
+            "placeholder": "Valid Email Address",
+        })
+    )
+
+    def clean_email(self):   
+        email = self.cleaned_data.get("email")
+        if not Account.objects.filter(email = email).exists():
+            raise forms.ValidationError("Invalid Email Address")
+        return email
+    
+class CustomSetPasswordForm(SetPasswordForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+
+        self.fields['new_password1'].widget.attrs['placeholder'] = 'Create new password'
+        self.fields['new_password2'].widget.attrs['placeholder'] = 'Confirm password'

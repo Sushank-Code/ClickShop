@@ -66,7 +66,7 @@
 							{% if user.is_authenticated %}
 							<small class="title text-dark">Welcome, <strong>{{ request.user.username }}</strong></small>
 							<div>
-								<a href="#">Dashboard</a> <span class="dark-transp"> | </span>
+								<a href="{% url 'Dashboard' %}">Dashboard</a> <span class="dark-transp"> | </span>
 								<a href="{% url 'Logout' %}"> Logout </a>
 							</div>
 							{% else %}
