@@ -107,14 +107,14 @@ def logout_view(request):
 def dashboard(request):
     return render(request,'accounts/dashboard.html')
 
-# password reset
+# forgot password
 
 class CustomPasswordResetView(SuccessMessageMixin,PasswordResetView): 
     form_class = CustomPasswordResetForm
     template_name = 'accounts/password_reset_form.html'
     subject_template_name = 'accounts/password_reset_subject.txt'
     html_email_template_name = 'accounts/password_reset_email.html'
-    success_message = "Reset link sent to your email"
+    success_message = "Reset link sent to your email."
     success_url = reverse_lazy('Signin')
 
     def send_mail(self, context, from_email, to_email,html_email_template_name):
