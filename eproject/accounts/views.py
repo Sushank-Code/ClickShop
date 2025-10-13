@@ -18,6 +18,11 @@ from django.contrib.auth.views import PasswordResetView,PasswordResetConfirmView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 
+# cart 
+from carts.views import _cart_id
+from carts.views import Cart
+from carts.models import CartItem
+
 # Create your views here.
 
 def registration(request):
@@ -89,6 +94,17 @@ def signin(request):
             user = authenticate(request,email= email,password= password)
             
             if user is not None:
+                try:
+                    cart = Cart.objects.get(cart_id=_cart_id(request))
+                    is_cart_item_exists = CartItem.objects.filter(cart = cart).exists() 
+                    if is_cart_item_exists:
+                        cart_item = CartItem.objects.filter(cart = cart)
+                    
+                        for item in cart_item:
+                            item.user = user
+                            item.save()
+                except:
+                    pass
                 login(request,user)
                 messages.success(request, "You are now logged in.")
                 return redirect('Dashboard')

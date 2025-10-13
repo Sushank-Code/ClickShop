@@ -79,8 +79,9 @@
                                     </div> <!-- price-wrap .// -->
                                 </td>
                                 <td class="text-right">
-                                    <a href="{% url 'remove_all' cart_item.product.id cart_item.id %}" 
-                                    onclick="return confirm('Do you really want to delete this product?')" class="btn btn-danger">
+                                    <a href="{% url 'remove_all' cart_item.product.id cart_item.id %}"
+                                        onclick="return confirm('Do you really want to delete this product?')"
+                                        class="btn btn-danger">
                                         Remove</a>
                                 </td>
                             </tr>
@@ -108,9 +109,9 @@
                         </dl>
                         <hr>
                         <p class="text-center mb-3">
-                            <img src="./images/misc/payments.png" height="26">
+                            <img src="{% static 'kartapp/images/misc/payments.png' %}" height="26">
                         </p>
-                        <a href="./place-order.html" class="btn btn-primary btn-block"> Checkout </a>
+                        <a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> Checkout </a>
                         <a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
                     </div> <!-- card-body.// -->
                 </div> <!-- card.// -->
