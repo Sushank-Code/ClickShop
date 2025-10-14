@@ -1,5 +1,4 @@
-from carts.models import Cart,CartItem
-from carts.views import _cart_id
+from carts.models import CartItem
 
 def Counter(request):
     cart_count = 0
@@ -7,17 +6,11 @@ def Counter(request):
         return {}
     else :
         try:
-            cart = Cart.objects.filter(cart_id = _cart_id(request))
-
             if request.user.is_authenticated:
                 cart_items = CartItem.objects.filter(user = request.user)       
 
-            else:
-                cart_items = CartItem.objects.filter(cart = cart[:1])      
-                # gettting the first cart Id(Which contain evry product in cart)
-            
-            for cart_item in cart_items:
-                cart_count += cart_item.quantity
-        except Cart.DoesNotExist:
+                for cart_item in cart_items:
+                    cart_count += cart_item.quantity
+        except CartItem.DoesNotExist:
             cart_count = 0
     return dict(cart_count = cart_count) 
