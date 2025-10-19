@@ -69,7 +69,7 @@ def add_cart(request,product_id):
     
     # for non authenticated user
     else:        
-        messages.info(request,"Sign in before adding to cart.")
+        messages.info(request,"Please Sign in before adding to cart")
         return redirect('Signin')
 
 def remove_cart(request,product_id,cart_item_id):
