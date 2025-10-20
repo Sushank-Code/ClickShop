@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404,HttpResponse
 from store.models import Product,Variation
 from carts.models import CartItem
-from django.core.exceptions import ObjectDoesNotExist
+# from django.core.exceptions import ObjectDoesNotExist
 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
@@ -72,6 +72,7 @@ def add_cart(request,product_id):
         messages.info(request,"Please Sign in before adding to cart")
         return redirect('Signin')
 
+@login_required(login_url='Signin')
 def remove_cart(request,product_id,cart_item_id):
     
     product = get_object_or_404(Product,id = product_id)
@@ -86,6 +87,7 @@ def remove_cart(request,product_id,cart_item_id):
  
     return redirect('cart')
 
+@login_required(login_url='Signin')
 def remove_all(request,product_id,cart_item_id):
     
     product = get_object_or_404(Product,id = product_id)
@@ -97,47 +99,50 @@ def remove_all(request,product_id,cart_item_id):
 
 def cart(request,total = 0,quantity = 0,tax = 0,grand_total = 0,cart_items = None):
 
-    try:
-        if request.user.is_authenticated:
-            cart_items = CartItem.objects.filter(user = request.user, is_active = True)
-        
-            for item in cart_items:    
-                total += (item.product.price * item.quantity)   # every product in cart's = total
-                quantity += item.quantity
-            tax = (2 * total)/100
-            grand_total = total + tax
-    except ObjectDoesNotExist:
-        pass
+ 
+    if request.user.is_authenticated:
+        cart_items = CartItem.objects.filter(user = request.user, is_active = True)
+    
+        for item in cart_items:    
+            total += (item.product.price * item.quantity)   # every product in cart's = total
+            quantity += item.quantity
+        tax = (2 * total)/100
+        grand_total = total + tax
+ 
 
-    context = {
-        'total':total,
-        'quantity':quantity, 
-        'cart_items':cart_items,
-        'tax' : tax,
-        'grand_total' : grand_total
-    }
-    return render (request,'carts/cart.html',context)
+        context = {
+            'total':total,
+            'quantity':quantity, 
+            'cart_items':cart_items,
+            'tax' : tax,
+            'grand_total' : grand_total
+        }
+        return render (request,'carts/cart.html',context)
+    
+    else:
+        messages.info(request,"Please Sign in before adding to cart")
+        return redirect('Signin')
 
 @login_required(login_url='Signin')
 def checkout(request,total = 0,quantity = 0,tax = 0,grand_total = 0,cart_items = None):
 
-    try:
-        if request.user.is_authenticated:
-            cart_items = CartItem.objects.filter(user = request.user, is_active = True)
+    if request.user.is_authenticated:
+        cart_items = CartItem.objects.filter(user = request.user, is_active = True)
             
+        if cart_items:
             for item in cart_items:    
                 total += (item.product.price * item.quantity)   
                 quantity += item.quantity
             tax = (2 * total)/100
             grand_total = total + tax
-    except ObjectDoesNotExist:
-        pass
 
-    context = {
-        'total':total,
-        'quantity':quantity,
-        'cart_items':cart_items,
-        'tax' : tax,
-        'grand_total' : grand_total
-    }
-    return render(request,'carts/checkout.html',context)
+            context = {
+                'total':total,
+                'quantity':quantity,
+                'cart_items':cart_items,
+                'tax' : tax,
+                'grand_total' : grand_total
+            }
+            return render(request,'carts/checkout.html',context)
+        else:
+            return redirect('cart')

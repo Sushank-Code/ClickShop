@@ -1,4 +1,4 @@
-from django.shortcuts import render,get_object_or_404,HttpResponse,redirect
+from django.shortcuts import render,get_object_or_404,redirect
 from kartapp.models import Category
 from store.models import Product
 from django.core.paginator import Paginator

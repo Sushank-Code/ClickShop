@@ -8,21 +8,6 @@
     <div class="container">
 
         <!-- ============================ COMPONENT 1 ================================= -->
-        {% if not user.is_authenticated %}
-        <h2 class="text-center"> 🔐 Login required! Please Sign in to add or view your cart. </h2>
-        <br>
-        <div class="text-center">
-            <a href="{% url 'Signin' %}" class="btn btn-primary">Sign in</a>
-        </div>
-        <br>
-
-        <p class="text-center"> or </p>
-        <p class="text-center"> Don’t have an account? Register to start shopping! </p>
-        <div class="text-center">
-            <a href="{% url 'Registration' %}" class="btn btn-primary">Register here</a>
-        </div>
-        {% else %}
-
         {% if not cart_items %}
 
         <h2 class="text-center"> Your Cart is Empty </h2>
@@ -144,7 +129,6 @@
 
         </div> <!-- row.// -->
         <!-- ============================ COMPONENT 1 END .// ================================= -->
-        {% endif %}
         {% endif %}
     </div> <!-- container .//  -->
 </section>
