@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404,HttpResponse
 from store.models import Product,Variation
 from carts.models import CartItem
+from orders.models import Order
 # from django.core.exceptions import ObjectDoesNotExist
 
 from django.contrib.auth.decorators import login_required
@@ -98,7 +99,6 @@ def remove_all(request,product_id,cart_item_id):
     return redirect('cart')
 
 def cart(request,total = 0,quantity = 0,tax = 0,grand_total = 0,cart_items = None):
-
  
     if request.user.is_authenticated:
         cart_items = CartItem.objects.filter(user = request.user, is_active = True)
@@ -108,7 +108,6 @@ def cart(request,total = 0,quantity = 0,tax = 0,grand_total = 0,cart_items = Non
             quantity += item.quantity
         tax = (2 * total)/100
         grand_total = total + tax
- 
 
         context = {
             'total':total,
@@ -136,12 +135,15 @@ def checkout(request,total = 0,quantity = 0,tax = 0,grand_total = 0,cart_items =
             tax = (2 * total)/100
             grand_total = total + tax
 
+            # shipping_data = Order.objects.get(user= request.user)
+
             context = {
                 'total':total,
                 'quantity':quantity,
                 'cart_items':cart_items,
                 'tax' : tax,
-                'grand_total' : grand_total
+                'grand_total' : grand_total,
+                # 'shipping_data':shipping_data
             }
             return render(request,'carts/checkout.html',context)
         else:

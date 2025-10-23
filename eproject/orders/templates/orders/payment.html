@@ -9,16 +9,23 @@
 
         <!-- ============================ COMPONENT 1 ================================= -->
 
-
         <div class="row">
             <aside class="col-lg-9">
 
 
                 <div class="card">
-                    <h5 class="card-header">Billing Address</h5>
+                    <h5 class="card-header">Shipping Address</h5>
                     <div class="card-body">
 
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <p class="card-text">{{ order.full_name }}</p>
+                        <p class="card-text">{{ order.full_address }}</p>
+                        <p class="card-text">{{ order.city }} , {{ order.state }} , {{ order.country }}</p>
+                        <p class="card-text">{{ order.email }} </p>
+                        <p class="card-text">{{ order.phone }} </p>
+
+                        {% if order.order_note %}
+                        <p class="card-text">Order Note : {{ order.order_note }} </p>
+                        {% endif %}
 
                     </div>
                 </div>
@@ -26,20 +33,62 @@
                     <h5 class="card-header">Payment Method</h5>
                     <div class="card-body">
 
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
+                        <img src="{% static 'kartapp/images/misc/esewa.png' %}" class="img-fluid" alt="eSewa"
+                            style="width: 80px;">
                     </div>
                 </div>
                 <div class="card">
                     <h5 class="card-header">Review products</h5>
                     <div class="card-body">
 
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <table class="table table-borderless table-shopping-cart">
+                            <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col">Product</th>
+                                    <th scope="col" width="300">Quantity</th>
+                                    <th scope="col" width="120">Price</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cart_item in cart_items %}
+                                <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            <div class="aside"><img src="{{ cart_item.product.image.url }}"
+                                                    class="img-sm">
+                                            </div>
+                                            <figcaption class="info">
+                                                <a href="{{ cart_item.product.get_url }}" class="title text-dark">
+                                                    {{ cart_item.product.product_name }}</a>
+                                                <p class="text-muted small">
+                                                    {% if cart_item.variations.all %}
+                                                    {% for item in cart_item.variations.all %}
+                                                    {{item.variation_category | capfirst}} :
+                                                    {{item.variation_value | capfirst}}
+                                                    <br />
+                                                    {% endfor %}
+                                                    {% endif %}
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <label for="">{{ cart_item.quantity }}</label>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap">
+                                            <var class="price">Rs {{ cart_item.sub_total }}</var>
+                                            <small class="text-muted">Rs {{ cart_item.product.price }} each </small>
+                                        </div> <!-- price-wrap .// -->
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
 
                     </div>
                 </div>
-
-
 
             </aside> <!-- col.// -->
             <aside class="col-lg-3">
@@ -60,7 +109,8 @@
                         </dl>
                         <hr>
                         <p class="text-center mb-3">
-                            <img src="{% static 'kartapp/images/misc/payments.png' %}" height="26">
+                            <img src="{% static 'kartapp/images/misc/esewa.png' %}" class="img-fluid" alt="eSewa"
+                                style="width: 60px;">
                         </p>
                         <a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> Make Payment </a>
                     </div> <!-- card-body.// -->

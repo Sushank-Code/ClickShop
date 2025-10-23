@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from carts.models import CartItem
+from orders.models import Order
 from orders.forms import OrderForm
 import datetime
 
@@ -18,15 +19,7 @@ def Place_Order(request,total = 0,quantity = 0,tax = 0,grand_total = 0):
         quantity += item.quantity
     tax = (2 * total)/100
     grand_total = total + tax
-
-    context = {
-        'total': total,
-        'tax': tax,
-        'grand_total': grand_total,
-        'cart_items': cart_items,
-        'form' : OrderForm(),
-    }
-    
+  
     if request.method == "POST":
         form = OrderForm(request.POST)
         if form.is_valid():
@@ -47,12 +40,23 @@ def Place_Order(request,total = 0,quantity = 0,tax = 0,grand_total = 0):
             order_number = current_date + str(order.id)
             order.order_number = order_number
             order.save()
-            return redirect('checkout')
+
+            order = Order.objects.get(user = current_user , is_ordered = False,order_number=order_number)
+
+            context = {
+                'total': total,
+                'tax': tax,
+                'grand_total': grand_total,
+                'cart_items': cart_items,
+                'form' : OrderForm(),
+                'order' : order,
+            }
+            return render(request,"orders/payment.html",context)
 
         else:
             return redirect('cart')
     else:
-        return render (request,'carts/cart.html',context)
+        return render (request,'orders/payment.html',context)
     
 
 def Payments(request):
