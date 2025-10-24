@@ -146,5 +146,7 @@ def checkout(request,total = 0,quantity = 0,tax = 0,grand_total = 0,cart_items =
                 # 'shipping_data':shipping_data
             }
             return render(request,'carts/checkout.html',context)
+        
+        # if no cart items 
         else:
             return redirect('cart')
