@@ -31,7 +31,15 @@ class Order(models.Model):
     country = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
-    order_note = models.CharField(max_length=100,blank=True)
+
+    
+    payment =  [
+        ('esewa','eSewa'),
+        ('khalti','Khalti'),
+        ('cod','Cash On Delivery'),
+    ]
+
+    payment_option = models.CharField(max_length=10,choices=payment,default='cod')
     order_total = models.FloatField()
     tax = models.FloatField()
 

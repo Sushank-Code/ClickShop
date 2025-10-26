@@ -27,7 +27,7 @@
                                 <div class="col form-group">
                                     <label>Last Name</label>
                                     <span class="text-danger">*</span>
-                                    <input type="text" name="last_name" class="form-control" required >
+                                    <input type="text" name="last_name" class="form-control" required>
                                 </div>
                             </div>
 
@@ -35,12 +35,14 @@
                                 <div class="col form-group">
                                     <label>Email</label>
                                     <span class="text-danger">*</span>
-                                    <input type="email" name="email" class="form-control" required value="{{ request.user.email }}">
+                                    <input type="email" name="email" class="form-control" required
+                                        value="{{ request.user.email }}">
                                 </div>
                                 <div class="col form-group">
                                     <label>Phone Number</label>
                                     <span class="text-danger">*</span>
-                                    <input type="text" name="phone" class="form-control" required value="{{ request.user.phone }}">
+                                    <input type="text" name="phone" class="form-control" required
+                                        value="{{ request.user.phone }}">
                                 </div>
                             </div>
 
@@ -74,13 +76,42 @@
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <label>Order Note</label>
-                                <span class="text-danger">*</span>
-                                <textarea name="order_note" rows="4" class="form-control"></textarea>
+                            <label class="">Select Payment Method</label>
+                            <div class="form-row mx-4">
+
+                                <div class="d-flex flex-wrap">
+
+                                    <!-- eSewa -->
+                                    <div class="form-check p-2 d-flex align-items-center" style="min-width:160px;">
+                                        <input class="form-check-input me-2" type="radio" name="payment_option"
+                                            id="esewa" value="esewa" required>
+                                        <label class="form-check-label d-flex align-items-center" for="esewa">
+                                            <img src="{% static 'kartapp/images/misc/esewa.png' %}" alt="eSewa"
+                                                width="80" class="me-2" style="cursor: pointer;">
+                                        </label>
+                                    </div>
+
+                                    <!-- Khalti -->
+                                    <div class="form-check p-2 d-flex align-items-center" style="min-width:160px;">
+                                        <input class="form-check-input me-2" type="radio" name="payment_option"
+                                            id="khalti" value="khalti" required>
+                                        <label class="form-check-label d-flex align-items-center" for="khalti">
+                                            <img src="{% static 'kartapp/images/misc/khalti.png' %}" alt="Khalti"
+                                                width="80" class="me-2" style="cursor: pointer;">
+                                        </label>
+                                    </div>
+
+                                    <!-- Cash on Delivery -->
+                                    <div class="form-check p-2 d-flex align-items-center" style="min-width:160px;">
+                                        <input class="form-check-input me-2" type="radio" name="payment_option" id="cod"
+                                            value="cod" required>
+                                        <label class="form-check-label d-flex align-items-center" for="cod">
+                                            <img src="{% static 'kartapp/images/misc/cash.jpg' %}"
+                                                alt="Cash on Delivery" width="60" class="me-2" style="cursor: pointer;">
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
                 </aside>
                 <!-- ================= SHIPPING ADDRESS END ================= -->
 
