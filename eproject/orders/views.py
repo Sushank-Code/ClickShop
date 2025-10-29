@@ -9,6 +9,8 @@ import datetime
 # payment gateway(Esewa)
 import uuid,hmac,hashlib,base64
 
+from orders.payments.esewa_verification import verify_esewa_payment
+
 
 # Create your views here.
 
@@ -50,6 +52,7 @@ def Place_Order(request,total = 0,tax = 0,grand_total = 0):
             order.save()
 
             request.session['allow_payment'] = True        
+            request.session['pending_order_number'] = order.order_number      
         
             payment_option = order.payment_option
             
@@ -113,7 +116,7 @@ def eSewa_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
         'product_code' : product_code,                                        # test product_code
         'signed_field_name': "total_amount,transaction_uuid,product_code",
         'signature': signature,
-        'esewa_url':'https://rc-epay.esewa.com.np/api/epay/main/v2/form' ,     # test url
+        'esewa_url':'https://rc-epay.esewa.com.np/api/epay/main/v2/form' ,    # test url
         'success_url': "http://127.0.0.1:8000/orders/payment_success",                            
         'failure_url': "http://127.0.0.1:8000/orders/payment_failure",                       
     }
@@ -129,9 +132,17 @@ def Payment_Success(request):
     print(request.session.get('allow_payment'))
     if not request.session.get('allow_payment'):
         return redirect('cart')
+    
+    data_encoded = request.GET.get('data')
+    order_number = request.session.get("pending_order_number") 
+    success= verify_esewa_payment(data_encoded,order_number)
 
+    request.session.pop("pending_order_number", None)
     request.session.pop('allow_payment', None)
-    return render(request,'orders/payment_success.html')
+    if success:
+        return render(request,'orders/payment_success.html')
+    else:
+        return render(request,'orders/payment_failure.html')
 
 def Payment_Failure(request):
     if not request.session.get('allow_payment'):
