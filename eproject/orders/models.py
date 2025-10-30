@@ -12,10 +12,10 @@ class Payment(models.Model):
     transaction_uuid = models.CharField(max_length=100)
     payment_method = models.CharField(max_length=100)
     amount_paid = models.CharField(max_length=100)
-    status = models.CharField(max_length=100)
+    status = models.CharField(max_length=100) 
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self): 
         return self.payment_id
 
 class Order(models.Model):
@@ -32,7 +32,7 @@ class Order(models.Model):
     address2 = models.CharField(max_length=50,blank=True)
     country = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
-    city = models.CharField(max_length=50)
+    city = models.CharField(max_length=50) 
 
     
     payment_category =  [

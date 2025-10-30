@@ -1,16 +1,15 @@
 from django.shortcuts import render,redirect
 from carts.models import CartItem
-from orders.models import Order
+from orders.models import Order,Payment
 from orders.forms import OrderForm
 
 # Order_number
 import datetime
 
 # payment gateway(Esewa)
-import uuid,hmac,hashlib,base64
+import uuid,hmac,hashlib,base64,json,requests
 
-from orders.payments.esewa_verification import verify_esewa_payment
-
+from django.conf import settings
 
 # Create your views here.
 
@@ -101,8 +100,8 @@ def eSewa_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
     grand_total = total + tax
 
     transaction_uuid = str(uuid.uuid4())            # generate uuid
-    secret_key = "8gBm/:&EnhH.1/q"
-    product_code = "EPAYTEST"
+    secret_key = settings.ESEWA_SECRET_KEY
+    product_code = settings.ESEWA_PRODUCT_CODE
 
     signature = generate_signature(grand_total, transaction_uuid, product_code, secret_key)
 
@@ -116,12 +115,55 @@ def eSewa_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
         'product_code' : product_code,                                        # test product_code
         'signed_field_name': "total_amount,transaction_uuid,product_code",
         'signature': signature,
-        'esewa_url':'https://rc-epay.esewa.com.np/api/epay/main/v2/form' ,    # test url
+        'esewa_url':settings.ESEWA_PAYMENT_URL ,    # test url
         'success_url': "http://127.0.0.1:8000/orders/payment_success",                            
         'failure_url': "http://127.0.0.1:8000/orders/payment_failure",                       
     }
     return render(request, 'orders/payment.html',context) 
 
+def verify_esewa_payment(request,data_encoded,order_number):
+
+    try:
+        decoded_bytes = base64.b64decode(data_encoded)       # base64 text to raw bytes
+        decoded_str = decoded_bytes.decode('utf-8')          # bytes to string
+        payment_info = json.loads(decoded_str)               # string with json text to python dictionary
+
+        transaction_uuid = payment_info.get("transaction_uuid")         # accessing dictionary
+        product_code = payment_info.get("product_code")
+        total_amount = payment_info.get("total_amount")
+
+        verify_url = settings.ESEWA_VERIFY_URL
+        payload = {
+            "product_code": product_code,
+            "total_amount": total_amount,
+            "transaction_uuid": transaction_uuid,
+        }
+
+        response = requests.get(verify_url, params=payload)   # Esewa does get not post
+        result = response.json()                              # http text to python dict
+        print("result :",result)
+
+        if result.get("status") ==  "COMPLETE":
+            order = Order.objects.get(user = request.user , is_ordered = False,order_number=order_number)
+            payment = Payment(
+               user = request.user,
+               payment_id = result.get("ref_id"),
+               transaction_uuid = result.get("transaction_uuid"),
+               payment_method = order.payment_option,
+               amount_paid = result.get("total_amount"),
+               status = result.get("status")
+            )
+            payment.save()
+            if order:
+                order.payment = payment
+                order.is_ordered = True
+                order.save()
+            return True
+        else:
+            return False
+    except Exception as e:
+        return False
+    
 def Khalti_payment(request):
     pass
 
@@ -129,16 +171,18 @@ def COD_payment(request):
     pass
 
 def Payment_Success(request):
-    print(request.session.get('allow_payment'))
+
     if not request.session.get('allow_payment'):
         return redirect('cart')
     
     data_encoded = request.GET.get('data')
     order_number = request.session.get("pending_order_number") 
-    success= verify_esewa_payment(data_encoded,order_number)
+    success= verify_esewa_payment(request,data_encoded,order_number)
 
+    print("success:",success)
     request.session.pop("pending_order_number", None)
     request.session.pop('allow_payment', None)
+    
     if success:
         return render(request,'orders/payment_success.html')
     else:
