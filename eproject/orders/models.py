@@ -2,14 +2,13 @@ from django.db import models
 from accounts.models import Account
 from store.models import Product,Variation
 
-
 # Create your models here.
 class Payment(models.Model):
 
     user = models.ForeignKey(Account,on_delete=models.CASCADE)
 
     payment_id = models.CharField(max_length=100,null=True)
-    transaction_uuid = models.CharField(max_length=100)
+    transaction_uuid = models.CharField(max_length=100,blank=True)
     payment_method = models.CharField(max_length=100)
     amount_paid = models.CharField(max_length=100)
     status = models.CharField(max_length=100) 
@@ -46,13 +45,13 @@ class Order(models.Model):
     tax = models.FloatField()
 
     STATUS =  [
-        ('New','New'),
-        ('Accepted','Accepted'),
-        ('Completed','Completed'),
-        ('Cancelled','Cancelled'),
+        ('NEW','NEW'),
+        ('ACCEPTED','ACCEPTED'),
+        ('COMPLETE','COMPLETE'),
+        ('CANCELED','CANCELED'),
     ]
 
-    status = models.CharField(max_length=100,choices=STATUS,default='New')
+    status = models.CharField(max_length=100,choices=STATUS,default='NEW')
     ip = models.CharField(blank=True,max_length=20)
     is_ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -65,7 +64,7 @@ class Order(models.Model):
         return f'{self.address1} {self.address2}'
 
     def __str__(self):
-        return self.first_name
+        return self.order_number
     
 class OrderProduct(models.Model):
 

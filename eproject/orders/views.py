@@ -1,10 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from carts.models import CartItem
 from orders.models import Order,Payment
 from orders.forms import OrderForm
 
 # Order_number
-import datetime
+import datetime,random,string
 
 # payment gateway(Esewa)
 import uuid,hmac,hashlib,base64,json,requests
@@ -61,9 +61,8 @@ def Place_Order(request,total = 0,tax = 0,grand_total = 0):
             elif payment_option == 'khalti':
                 return redirect('khalti_payment',order_number=order.order_number)
             
-            elif payment_option == 'cod':
+            else:
                 return redirect('cod_payment',order_number = order.order_number)
-            
         else:
             return redirect('cart')
     else:
@@ -115,7 +114,7 @@ def eSewa_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
         'product_code' : product_code,                                        # test product_code
         'signed_field_name': "total_amount,transaction_uuid,product_code",
         'signature': signature,
-        'esewa_url':settings.ESEWA_PAYMENT_URL ,    # test url
+        'esewa_url':settings.ESEWA_PAYMENT_URL ,                             # test url
         'success_url': "http://127.0.0.1:8000/orders/payment_success",                            
         'failure_url': "http://127.0.0.1:8000/orders/payment_failure",                       
     }
@@ -164,11 +163,8 @@ def verify_esewa_payment(request,data_encoded,order_number):
     except Exception as e:
         return False
     
-def Khalti_payment(request):
-    pass
-
-def COD_payment(request):
-    pass
+def Khalti_payment(request,order_number):
+    return HttpResponse("Coming Soon !")
 
 def Payment_Success(request):
 
@@ -194,3 +190,43 @@ def Payment_Failure(request):
 
     request.session.pop('allow_payment', None)
     return render(request,'orders/payment_failure.html')
+
+def generate_payment_id():
+    number_part = str(random.randint(1, 9999)).zfill(4)
+    random_part = ''.join(random.choices(string.ascii_uppercase + string.digits, k=3))
+    return f"{number_part}{random_part}"
+
+def COD_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
+
+    current_user = request.user
+    cart_items = CartItem.objects.filter(user = current_user)
+   
+    for item in cart_items:
+        total += (item.product.price * item.quantity)   
+    tax = (2 * total)/100
+    grand_total = total + tax
+
+    order = Order.objects.get(user = current_user , is_ordered = False , order_number=order_number)
+
+    payment = Payment(
+        user = current_user,
+        payment_id = generate_payment_id(),
+        payment_method = order.payment_option,
+        amount_paid = grand_total,
+        status = "COMPLETE"
+    )
+    payment.save()
+    if order:
+        order.payment = payment
+        order.is_ordered = True
+        order.save()
+    
+
+    context = {
+        'total': total,
+        'tax': tax,
+        'grand_total': grand_total,
+        'cart_items': cart_items,
+        'order' : order,
+    }
+    return render(request,'orders/payment.html',context)

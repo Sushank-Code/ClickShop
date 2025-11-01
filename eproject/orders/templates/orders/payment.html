@@ -27,9 +27,15 @@
                 <div class="card">
                     <h5 class="card-header">Payment Method</h5>
                     <div class="card-body">
-
+                        {% if order.payment_option == 'esewa' %}
                         <img src="{% static 'kartapp/images/misc/esewa.png' %}" class="img-fluid" alt="eSewa"
                             style="width: 80px;">
+                        {% elif order.payment_options == 'khalti' %}
+                        <p>Khalti</p>
+                        {% else %}
+                        <img src="{% static 'kartapp/images/misc/cash.jpg' %}" class="img-fluid" alt="eSewa"
+                            style="width: 80px;">
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card">
@@ -104,11 +110,17 @@
                         </dl>
                         <hr>
                         <p class="text-center mb-3">
+                            {% if order.payment_option == 'esewa' %}
                             <img src="{% static 'kartapp/images/misc/esewa.png' %}" class="img-fluid" alt="eSewa"
                                 style="width: 60px;">
+                            {% elif order.payment_options == 'khalti' %}
+                            <p>Khalti</p>
+                            {% else %}
+                            <p class="text-center">Cash on delivery</p>
+                            {% endif %}
                         </p>
+                        {% if order.payment_option == 'esewa' %}
                         <form action="{{ esewa_url }}" method="POST">
-                        {% csrf_token %}
                         <input type="text" id="amount" name="amount" value="{{ total }}" required>
                         <input type="text" id="tax_amount" name="tax_amount" value ="{{ tax }}" required>
                         <input type="text" id="total_amount" name="total_amount" value="{{ grand_total }}" required>
@@ -122,7 +134,9 @@
                         <input type="text" id="signature" name="signature" value="{{ signature }}" required>
                         <input value="Make Payment" type="submit" class="btn btn-primary btn-block">
                         </form>
-                        {% comment %} <a href="{% url 'checkout' %}" "> Make Payment </a> {% endcomment %}
+                        {% else %}
+                        <a href="{% url 'home' %}" type="submit" class="btn btn-primary btn-block"> Make Payment </a>
+                        {% endif %}
                     </div> <!-- card-body.// -->
                 </div> <!-- card.// -->
 

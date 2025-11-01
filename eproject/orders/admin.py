@@ -9,8 +9,8 @@ class PaymentAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['user','payment','full_name','phone','email','full_address','payment_option','order_total','tax','status','is_ordered']
-    list_display_links = ['full_name']
+    list_display = ['user','payment','order_number','full_name','phone','email','full_address','payment_option','order_total','tax','status','is_ordered']
+    list_display_links = ['order_number']
     list_filter = ['status','is_ordered']
     search_fields = ['order_number','full_name']
     list_per_page = 20
