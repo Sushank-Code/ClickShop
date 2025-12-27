@@ -4,7 +4,7 @@ from orders.models import Payment,Order,OrderProduct
 # Register your models here.
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['user','payment_id','transaction_uuid','payment_method','amount_paid','status'] 
+    list_display = ['user','payment_id','transaction_uuid','payment_method','amount_paid','status','created_at'] 
     list_display_links = ['payment_id']
 
 @admin.register(Order)
@@ -14,5 +14,5 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ['status','is_ordered']
     search_fields = ['order_number','full_name']
     list_per_page = 20
-
+ 
 admin.site.register(OrderProduct)

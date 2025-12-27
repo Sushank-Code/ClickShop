@@ -10,4 +10,4 @@ urlpatterns = [
     path('payment_success/',views.Payment_Success,name='payment_success'),
     path('payment_failure/',views.Payment_Failure,name='payment_failure'),
 
-]
+] 

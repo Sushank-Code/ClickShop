@@ -138,7 +138,7 @@ def verify_esewa_payment(request,data_encoded,order_number):
             "transaction_uuid": transaction_uuid,
         }
 
-        response = requests.get(verify_url, params=payload)   # Esewa does get not post
+        response = requests.get(verify_url, params=payload)   # Esewa does get (not post)
         result = response.json()                              # http text to python dict
         print("result :",result)
 
