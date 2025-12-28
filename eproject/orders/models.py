@@ -43,7 +43,7 @@ class Order(models.Model):
     payment_option = models.CharField(max_length=100,choices=payment_category,default='cod')
     order_total = models.FloatField()
     tax = models.FloatField() 
-
+ 
     STATUS =  [
         ('NEW','NEW'),
         ('ACCEPTED','ACCEPTED'),

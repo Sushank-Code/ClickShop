@@ -10,7 +10,7 @@ import datetime,random,string
 import uuid,hmac,hashlib,base64,json,requests
 
 from django.conf import settings
-
+ 
 # Create your views here.
 
 def Place_Order(request,total = 0,tax = 0,grand_total = 0):
@@ -68,6 +68,7 @@ def Place_Order(request,total = 0,tax = 0,grand_total = 0):
     else:
         return render (request,'carts/cart.html')
 
+# E-sewa Signature 
 def generate_signature(total_amount,transaction_uuid,product_code,secret_key):
     # core content of transaction
     message = f"total_amount={total_amount},transaction_uuid={transaction_uuid},product_code={product_code}"
@@ -191,6 +192,7 @@ def Payment_Failure(request):
     request.session.pop('allow_payment', None)
     return render(request,'orders/payment_failure.html')
 
+# COD Logic starts from here
 def generate_payment_id():
     number_part = str(random.randint(1, 9999)).zfill(4)
     random_part = ''.join(random.choices(string.ascii_uppercase + string.digits, k=3))
