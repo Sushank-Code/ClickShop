@@ -174,7 +174,7 @@ def Payment_Success(request):
     
     data_encoded = request.GET.get('data')
     order_number = request.session.get("pending_order_number") 
-    success= verify_esewa_payment(request,data_encoded,order_number)
+    success= verify_esewa_payment(request,data_encoded,order_number)     # Verification
 
     print("success:",success)
     request.session.pop("pending_order_number", None)
