@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,HttpResponse
 from carts.models import CartItem
-from orders.models import Order,Payment
+from orders.models import Order,Payment,OrderProduct
 from orders.forms import OrderForm
 
 # Order_number
@@ -8,8 +8,10 @@ import datetime,random,string
 
 # payment gateway(Esewa)
 import uuid,hmac,hashlib,base64,json,requests
-
 from django.conf import settings
+from django.db import transaction
+from django.db.models import F
+
  
 # Create your views here.
 
@@ -45,10 +47,10 @@ def Place_Order(request,total = 0,tax = 0,grand_total = 0):
 
             d = datetime.date(yr,mt,dt)
             current_date = d.strftime("%Y%m%d")              # coverted to string 
-            order.save()                                     # Must save before getting order id
+            order.save()                                     # Must save before getting order id ( beacuse id only appear after saving)
             order_number = current_date + str(order.id)
             order.order_number = order_number
-            order.save()
+            order.save()                                    # Now , order_number is saved
 
             request.session['allow_payment'] = True        
             request.session['pending_order_number'] = order.order_number      
@@ -144,7 +146,7 @@ def verify_esewa_payment(request,data_encoded,order_number):
         print("result :",result)
 
         if result.get("status") ==  "COMPLETE":
-            order = Order.objects.get(user = request.user , is_ordered = False,order_number=order_number)
+            order = Order.objects.get(user = request.user , is_ordered = False , order_number = order_number)
             payment = Payment(
                user = request.user,
                payment_id = result.get("ref_id"),
@@ -158,6 +160,10 @@ def verify_esewa_payment(request,data_encoded,order_number):
                 order.payment = payment
                 order.is_ordered = True
                 order.save()
+
+                # After payment logic
+                Order_Prodcut(request,order,payment)
+
             return True
         else:
             return False
@@ -174,7 +180,7 @@ def Payment_Success(request):
     
     data_encoded = request.GET.get('data')
     order_number = request.session.get("pending_order_number") 
-    success= verify_esewa_payment(request,data_encoded,order_number)     # Verification
+    success= verify_esewa_payment(request,data_encoded,order_number)     # Verification of e sewa
 
     print("success:",success)
     request.session.pop("pending_order_number", None)
@@ -222,7 +228,9 @@ def COD_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
         order.payment = payment
         order.is_ordered = True
         order.save()
-    
+
+        # After payment logic
+        Order_Prodcut(request,order,payment)
 
     context = {
         'total': total,
@@ -232,3 +240,28 @@ def COD_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
         'order' : order,
     }
     return render(request,'orders/payment.html',context)
+
+# moving to order Product table 
+def Order_Prodcut(request,order,payment):
+    cart_items = CartItem.objects.filter(user = request.user)
+
+    with transaction.atomic():
+        for item in cart_items:
+            orderproduct = OrderProduct.objects.create(
+                user = request.user,
+                payment = payment,
+                order = order,
+                product = item.product,
+                quantity = item.quantity,
+                product_price = item.product.price,
+                ordered = True,
+            )
+            orderproduct.variations.set(item.variations.all())
+            orderproduct.save()
+
+            # Reducing the stock of the product
+            item.product.stock = F('stock') - item.quantity
+            item.product.save()
+
+        # Clearing Cart 
+        cart_items.delete()
