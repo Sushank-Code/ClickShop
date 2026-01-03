@@ -9,12 +9,16 @@ import datetime,random,string
 # payment gateway(Esewa)
 import uuid,hmac,hashlib,base64,json,requests
 from django.conf import settings
+
 from django.db import transaction
 from django.db.models import F
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
- 
 # Create your views here.
 
+@require_POST
+@login_required(login_url='Signin')
 def Place_Order(request,total = 0,tax = 0,grand_total = 0):
 
     current_user = request.user
@@ -55,13 +59,11 @@ def Place_Order(request,total = 0,tax = 0,grand_total = 0):
             request.session['allow_payment'] = True        
             request.session['pending_order_number'] = order.order_number      
         
-            payment_option = order.payment_option
-            
-            if payment_option == 'esewa':
+            if order.payment_option == 'esewa':
                 return redirect('esewa_payment',order_number=order.order_number)
             
-            elif payment_option == 'khalti':
-                return redirect('khalti_payment',order_number=order.order_number)
+            elif order.payment_option == 'khalti':
+                return redirect('khalti_payment',order_number=order.order_number) 
             
             else:
                 return redirect('cod_payment',order_number = order.order_number)
@@ -92,14 +94,14 @@ def eSewa_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
         return redirect('cart')
     
     current_user = request.user
-    order = Order.objects.get(user = current_user , is_ordered = False,order_number=order_number)
-
     cart_items = CartItem.objects.filter(user = current_user)
-   
+
     for item in cart_items:
         total += (item.product.price * item.quantity)   
     tax = (2 * total)/100
     grand_total = total + tax
+
+    order = Order.objects.get(user = current_user , is_ordered = False,order_number=order_number)
 
     transaction_uuid = str(uuid.uuid4())            # generate uuid
     secret_key = settings.ESEWA_SECRET_KEY
@@ -114,16 +116,16 @@ def eSewa_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
         'cart_items': cart_items,
         'order' : order,
         'transaction_uuid' : transaction_uuid,
-        'product_code' : product_code,                                        # test product_code
+        'product_code' : product_code,                                    # test product_code
         'signed_field_name': "total_amount,transaction_uuid,product_code",
         'signature': signature,
-        'esewa_url':settings.ESEWA_PAYMENT_URL ,                             # test url
-        'success_url': "http://127.0.0.1:8000/orders/payment_success",                            
-        'failure_url': "http://127.0.0.1:8000/orders/payment_failure",                       
+        'esewa_url':settings.ESEWA_PAYMENT_URL ,                        # test url
+        'success_url': "http://127.0.0.1:8000/orders/payment_success",  # goes to success func | If Live,use domain                      
+        'failure_url': "http://127.0.0.1:8000/orders/payment_failure",                        
     }
     return render(request, 'orders/payment.html',context) 
 
-def verify_esewa_payment(request,data_encoded,order_number):
+def verify_esewa_payment(request,data_encoded,order):
 
     try:
         decoded_bytes = base64.b64decode(data_encoded)       # base64 text to raw bytes
@@ -146,7 +148,6 @@ def verify_esewa_payment(request,data_encoded,order_number):
         print("result :",result)
 
         if result.get("status") ==  "COMPLETE":
-            order = Order.objects.get(user = request.user , is_ordered = False , order_number = order_number)
             payment = Payment(
                user = request.user,
                payment_id = result.get("ref_id"),
@@ -162,7 +163,7 @@ def verify_esewa_payment(request,data_encoded,order_number):
                 order.save()
 
                 # After payment logic
-                Order_Prodcut(request,order,payment)
+                Order_Product(request,order,payment)
 
             return True
         else:
@@ -178,9 +179,16 @@ def Payment_Success(request):
     if not request.session.get('allow_payment'):
         return redirect('cart')
     
-    data_encoded = request.GET.get('data')
     order_number = request.session.get("pending_order_number") 
-    success= verify_esewa_payment(request,data_encoded,order_number)     # Verification of e sewa
+    order = Order.objects.get(user = request.user , is_ordered = False , order_number = order_number)
+
+    if order.payment_option == 'esewa':
+        data_encoded = request.GET.get('data')
+        success = verify_esewa_payment(request,data_encoded,order)     # Verification of e sewa
+    elif order.payment_option == 'cod':
+        success = verify_cod_payment(request,order)                           # Verification of cod
+    else: 
+        None
 
     print("success:",success)
     request.session.pop("pending_order_number", None)
@@ -204,8 +212,12 @@ def generate_payment_id():
     random_part = ''.join(random.choices(string.ascii_uppercase + string.digits, k=3))
     return f"{number_part}{random_part}"
 
+@login_required(login_url='Signin')
 def COD_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
 
+    if not request.session.get('allow_payment'):
+        return redirect('cart')
+    
     current_user = request.user
     cart_items = CartItem.objects.filter(user = current_user)
    
@@ -216,22 +228,6 @@ def COD_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
 
     order = Order.objects.get(user = current_user , is_ordered = False , order_number=order_number)
 
-    payment = Payment(
-        user = current_user,
-        payment_id = generate_payment_id(),
-        payment_method = order.payment_option,
-        amount_paid = grand_total,
-        status = "COMPLETE"
-    )
-    payment.save()
-    if order:
-        order.payment = payment
-        order.is_ordered = True
-        order.save()
-
-        # After payment logic
-        Order_Prodcut(request,order,payment)
-
     context = {
         'total': total,
         'tax': tax,
@@ -241,8 +237,38 @@ def COD_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
     }
     return render(request,'orders/payment.html',context)
 
+def verify_cod_payment(request,order,total = 0,tax = 0,grand_total = 0):
+
+    try:
+        current_user = request.user
+        cart_items = CartItem.objects.filter(user = current_user)
+   
+        for item in cart_items:
+            total += (item.product.price * item.quantity)   
+        tax = (2 * total)/100
+        grand_total = total + tax
+
+        payment = Payment(
+        user = current_user,
+        payment_id = generate_payment_id(),
+        payment_method = order.payment_option,
+        amount_paid = grand_total,
+        status = "PENDING"
+        )
+        payment.save()
+        if order:
+            order.payment = payment
+            order.is_ordered = True
+            order.save()
+
+            # After payment logic
+            Order_Product(request,order,payment)
+        return True
+    except Exception as e:
+        return False
+    
 # moving to order Product table 
-def Order_Prodcut(request,order,payment):
+def Order_Product(request,order,payment):
     cart_items = CartItem.objects.filter(user = request.user)
 
     with transaction.atomic():

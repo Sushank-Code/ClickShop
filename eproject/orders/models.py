@@ -51,7 +51,7 @@ class Order(models.Model):
         ('CANCELED','CANCELED'),
     ]
 
-    status = models.CharField(max_length=100,choices=STATUS,default='NEW')
+    status = models.CharField(max_length=100,choices=STATUS,default='NEW') 
     ip = models.CharField(blank=True,max_length=20)
     is_ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
