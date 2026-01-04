@@ -15,6 +15,10 @@ from django.db.models import F
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
+# Order_email
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
 # Create your views here.
 
 @require_POST
@@ -93,7 +97,7 @@ def eSewa_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
     if not request.session.get('allow_payment'):
         return redirect('cart')
     
-    current_user = request.user
+    current_user = request.user 
     cart_items = CartItem.objects.filter(user = current_user)
 
     for item in cart_items:
@@ -186,7 +190,7 @@ def Payment_Success(request):
         data_encoded = request.GET.get('data')
         success = verify_esewa_payment(request,data_encoded,order)     # Verification of e sewa
     elif order.payment_option == 'cod':
-        success = verify_cod_payment(request,order)                           # Verification of cod
+        success = verify_cod_payment(request,order)                    # Verification of cod
     else: 
         None
 
@@ -291,3 +295,13 @@ def Order_Product(request,order,payment):
 
         # Clearing Cart 
         cart_items.delete()
+
+        # sending order received Email to User
+        mail_subject = f"Order Confirmed - Order # {order.order_number}"
+        message = render_to_string('order/order_received_email.html',{
+            'order': order,
+        })
+        to_email = request.user.email
+        email = EmailMessage(mail_subject,message,to=[to_email])
+        email.content_subtype = 'html'
+        email.send()

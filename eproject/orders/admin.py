@@ -10,7 +10,7 @@ class PaymentAdmin(admin.ModelAdmin):
 class OrderProductInline(admin.TabularInline):
     model = OrderProduct 
     extra = 0
-    readonly_fields = ['user','payment','order','product','quantity','product_price','ordered']
+    readonly_fields = ['user','payment','order','product','variations','quantity','product_price','ordered']
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):

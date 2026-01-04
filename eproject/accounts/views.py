@@ -132,5 +132,5 @@ class CustomPasswordResetView(SuccessMessageMixin,PasswordResetView):
 class CustomPasswordResetConfirmView(SuccessMessageMixin,PasswordResetConfirmView):
     form_class = CustomSetPasswordForm
     template_name = 'accounts/password_reset_confirm.html'
-    success_message = "Password reset successful. Please log in."
+    success_message = "Password reset successful. Please login."
     success_url = reverse_lazy('Signin')
