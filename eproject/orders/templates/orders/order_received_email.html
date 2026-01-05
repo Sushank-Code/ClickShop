@@ -1,0 +1,258 @@
+{% autoescape off %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmation</title>
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Mobile-first responsive styles */
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .content-padding {
+                padding: 20px 15px !important;
+            }
+
+            .logo-text {
+                font-size: 28px !important;
+            }
+
+            .thanks-text {
+                font-size: 16px !important;
+            }
+
+            .section-box {
+                padding: 15px !important;
+            }
+
+            .product-img {
+                width: 60px !important;
+            }
+
+            .product-table td {
+                display: block !important;
+                width: 100% !important;
+                padding-left: 0 !important;
+            }
+
+            .product-img-cell {
+                margin-bottom: 10px;
+            }
+
+            .button-link {
+                padding: 12px 30px !important;
+                font-size: 14px !important;
+            }
+
+            .delivery-table td {
+                font-size: 13px !important;
+            }
+
+            .summary-table {
+                font-size: 13px !important;
+            }
+
+            h3 {
+                font-size: 16px !important;
+            }
+        }
+
+        /* Very small screens */
+        @media only screen and (max-width: 400px) {
+            .logo-text {
+                font-size: 24px !important;
+            }
+
+            .content-padding {
+                padding: 15px 10px !important;
+            }
+
+            .section-box {
+                padding: 12px !important;
+            }
+        }
+    </style>
+</head>
+
+<body style="margin:0; padding:0; background-color:#f4f4f4; font-family:Arial, Helvetica, sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+        style="background-color:#f4f4f4; padding:30px 0;">
+        <tr>
+            <td align="center">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="email-container"
+                    style="max-width:600px; background:#ffffff; border-radius:8px; overflow:hidden;">
+
+                    <!-- Logo -->
+                    <tr>
+                        <td align="center" style="padding:30px 10px 20px;">
+                            <h1 class="logo-text"
+                                style="margin:0; color:#FF6B35; font-size:32px; font-weight:700; letter-spacing:-1px;">
+                                ClickShop
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <!-- Header -->
+                    <tr>
+                        <td align="center" style="padding:10px 10px 25px;">
+                            <p class="thanks-text" style="margin:0; color:#FF6B35; font-size:18px; font-weight:500;">
+                                Thanks for shopping with us!
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Body -->
+                    <tr>
+                        <td class="content-padding" style="padding:30px 25px; color:#333333; font-size:16px;">
+                            <p style="margin:0 0 20px;">
+                                Hi <strong>{{ order.user }}</strong>,
+                            </p>
+                            <p style="margin:0 0 20px;">
+                                We received your order <strong>#{{ order.order_number }}</strong> on
+                                <strong>{{ order.created_at }}</strong>
+                                {% if order.payment_option == 'esewa' %}
+                                and you have paid for this via
+                                <strong>{{ order.payment_option }}</strong>.
+                                {% comment %} elif khalti remain {% endcomment %}
+                                {% else %}
+                                and you'll be paying for this via
+                                <strong> Cash on Delivery </strong>.
+                                {% endif %}
+                                We're getting your order ready and will let you know
+                                once it's on the way.
+                                We wish you enjoy shopping with us and hope to see you again real soon!
+                            </p>
+
+                            <!-- Order Status Button -->
+                            <p style="text-align:center; margin:30px 0;">
+                                <a class="button-link"
+                                    style="display:inline-block; background-color:#FF6B35; color:#ffffff; text-decoration:none; padding:12px 40px; border-radius:5px; font-weight:600; font-size:15px;">
+                                    Order Status
+                                </a>
+                            </p>
+
+                            <!-- Delivery Details -->
+                            <div class="section-box"
+                                style="margin:30px 0; padding:20px; background-color:#f8f8f8; border-radius:5px;">
+                                <h3 style="margin:0 0 15px; color:#FF6B35; font-size:18px;">
+                                    📍 Delivery Details
+                                </h3>
+                                <table class="delivery-table" style="width:100%; font-size:14px;">
+                                    <tr>
+                                        <td style="padding:5px 0; color:#FF6B35; font-weight:600; width:80px;">Name:
+                                        </td>
+                                        <td style="padding:5px 0;">{{ order.full_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px 0; color:#FF6B35; font-weight:600; vertical-align:top;">
+                                            Address:</td>
+                                        <td style="padding:5px 0;">{{ order.full_address }}, {{ order.city }},
+                                            {{ order.state }}, {{ order.country }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px 0; color:#FF6B35; font-weight:600;">Email:</td>
+                                        <td style="padding:5px 0; word-break:break-all;">{{ order.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:5px 0; color:#FF6B35; font-weight:600;">Phone:</td>
+                                        <td style="padding:5px 0;">{{ order.phone }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <!-- Package Details -->
+                            {% comment %} <div class="section-box"
+                                style="margin:30px 0; padding:20px; background-color:#f8f8f8; border-radius:5px;">
+                                <h3 style="margin:0 0 15px; color:#FF6B35; font-size:18px;">
+                                    📦 Package 1
+                                </h3>
+                                <div
+                                    style="margin:15px 0; padding:15px; background:#ffffff; border-radius:5px; border:1px solid #e0e0e0;">
+                                    <table class="product-table" style="width:100%;">
+                                        {% for orderproduct in orderproducts %}
+                                        <tr>
+                                            <td class="product-img-cell" style="width:80px; vertical-align:top;">
+                                                <img class="product-img"
+                                                    src="http://{{ domain }}{{ orderproduct.product.image.url }}"
+                                                    alt="{{ orderproduct.product.product_name }}"
+                                                    style="width:70px; height:auto; border-radius:4px; display:block;">
+                                            </td>
+                                            <td style="vertical-align:top; padding-left:15px;">
+                                                <p style="margin:0 0 5px; font-weight:600; color:#333;">
+                                                    {{ orderproduct.product.product_name }}</p>
+                                                <p style="margin:5px 0 0; font-size:13px; color:#666;">
+                                                    {% if orderproduct.variations.all %}
+                                                    {% for item in orderproduct.variations.all %}
+                                                    {{item.variation_category | capfirst}} :
+                                                    {{item.variation_value | capfirst}}
+                                                    <br>
+                                                    {% endfor %}
+                                                    {% endif %}
+                                                </p>
+                                                <br>
+                                                <p style="margin:0; font-size:13px; color:#FF6B35; font-weight:600;">Rs.
+                                                    {{ orderproduct.sub_total }}</p>
+                                                <p style="margin:5px 0 0; font-size:13px; color:#666;">Quantity:
+                                                    {{ orderproduct.quantity }}</p>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div> {% endcomment %}
+
+                            <!-- Order Summary -->
+                            <div class="section-box"
+                                style="margin:30px 0; padding:20px; background-color:#f8f8f8; border-radius:5px;">
+                                <table class="summary-table" style="width:100%; font-size:14px;">
+                                    <tr>
+                                        <td style="padding:8px 0;">Tax:</td>
+                                        <td align="right" style="padding:8px 0; color:#28a745;">Rs. {{ order.tax }}
+                                        </td>
+                                    </tr>
+                                    <tr style="border-top:2px solid #ddd;">
+                                        <td style="padding:12px 0; font-weight:600; font-size:16px;">Grand Total:</td>
+                                        <td align="right"
+                                            style="padding:12px 0; font-weight:600; font-size:16px; color:#FF6B35;">Rs.
+                                            {{ order.order_total }}</td>
+                                    </tr>
+                                </table>
+                                <div
+                                    style="margin-top:15px; padding-top:15px; border-top:1px solid #ddd; font-size:13px;">
+                                    <p style="margin:5px 0;"><strong>Shipping option:</strong> STANDARD</p>
+                                    <p style="margin:5px 0;"><strong>Paid by:</strong>
+                                        {{ order.get_payment_option_display }}</p>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center"
+                            style="background-color:#f8f8f8; padding:20px; font-size:13px; color:#999999;">
+                            © ClickShop. All rights reserved.
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
+{% endautoescape %}

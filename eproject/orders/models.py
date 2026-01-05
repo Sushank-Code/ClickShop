@@ -46,7 +46,7 @@ class Order(models.Model):
  
     STATUS =  [
         ('NEW','NEW'),
-        ('ACCEPTED','ACCEPTED'),
+        ('ACCEPTED','ACCEPTED'), 
         ('COMPLETE','COMPLETE'),
         ('CANCELED','CANCELED'),
     ]
@@ -79,6 +79,9 @@ class OrderProduct(models.Model):
     ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def sub_total(self):    # one product's = total
+        return self.product.price * self.quantity
 
     def __str__(self):
         return self.product.product_name

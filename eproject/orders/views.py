@@ -47,15 +47,14 @@ def Place_Order(request,total = 0,tax = 0,grand_total = 0):
             order.order_total = grand_total
             order.tax = tax
             order.ip = request.META.get('REMOTE_ADDR')
-            order.save()
+            order.save()                             # Must save before getting order id ( beacuse id only appear after saving)
 
             yr = int(datetime.date.today().strftime('%Y'))
             mt = int(datetime.date.today().strftime('%m'))
             dt = int(datetime.date.today().strftime('%d'))
 
             d = datetime.date(yr,mt,dt)
-            current_date = d.strftime("%Y%m%d")              # coverted to string 
-            order.save()                                     # Must save before getting order id ( beacuse id only appear after saving)
+            current_date = d.strftime("%Y%m%d")              # coverted to string                                        
             order_number = current_date + str(order.id)
             order.order_number = order_number
             order.save()                                    # Now , order_number is saved
@@ -149,7 +148,7 @@ def verify_esewa_payment(request,data_encoded,order):
 
         response = requests.get(verify_url, params=payload)   # Esewa does get (not post)
         result = response.json()                              # http text to python dict
-        print("result :",result)
+        # print("result :",result)
 
         if result.get("status") ==  "COMPLETE":
             payment = Payment(
@@ -173,6 +172,7 @@ def verify_esewa_payment(request,data_encoded,order):
         else:
             return False
     except Exception as e:
+        # print(e)
         return False
     
 def Khalti_payment(request,order_number):
@@ -194,7 +194,7 @@ def Payment_Success(request):
     else: 
         None
 
-    print("success:",success)
+    # print("success:",success)
     request.session.pop("pending_order_number", None)
     request.session.pop('allow_payment', None)
     
@@ -267,8 +267,10 @@ def verify_cod_payment(request,order,total = 0,tax = 0,grand_total = 0):
 
             # After payment logic
             Order_Product(request,order,payment)
+
         return True
     except Exception as e:
+        print(e)
         return False
     
 # moving to order Product table 
@@ -295,13 +297,14 @@ def Order_Product(request,order,payment):
 
         # Clearing Cart 
         cart_items.delete()
+    
 
-        # sending order received Email to User
-        mail_subject = f"Order Confirmed - Order # {order.order_number}"
-        message = render_to_string('order/order_received_email.html',{
-            'order': order,
-        })
-        to_email = request.user.email
-        email = EmailMessage(mail_subject,message,to=[to_email])
-        email.content_subtype = 'html'
-        email.send()
+    # sending order received Email to User
+    mail_subject = f"Order Confirmed - Order #{order.order_number}"
+    message = render_to_string('orders/order_received_email.html',{
+        'order': order,
+    })
+    to_email = request.user.email
+    email = EmailMessage(mail_subject,message,to=[to_email])
+    email.content_subtype = 'html'
+    email.send()
