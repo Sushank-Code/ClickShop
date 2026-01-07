@@ -149,10 +149,9 @@ EMAIL_PORT = config("EMAIL_PORT", default=25, cast=int)
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=False, cast=bool) 
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
-PASSWORD_RESET_TIMEOUT = 3600     # 1hr
+PASSWORD_RESET_TIMEOUT = 3600     # 1hr (used by PasswordResetConfirmView & only work for passwordReset)
 
 # Payment(ESewa Development)
-
 # .env
 ESEWA_PRODUCT_CODE = config("ESEWA_PRODUCT_CODE")
 ESEWA_SECRET_KEY = config("ESEWA_SECRET_KEY")

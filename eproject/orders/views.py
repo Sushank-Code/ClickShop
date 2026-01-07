@@ -40,7 +40,7 @@ def Place_Order(request,total = 0,tax = 0,grand_total = 0):
     grand_total = total + tax
   
     if request.method == "POST":
-        form = OrderForm(request.POST)
+        form = OrderForm(request.POST) 
         if form.is_valid():
             order = form.save(commit=False)
             order.user = current_user

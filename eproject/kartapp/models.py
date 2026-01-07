@@ -15,7 +15,7 @@ class Category(models.Model):
 
     def get_url(self):
         return reverse('product_by_category',args=[self.slug])
-        # reverse = creates url dynamically 
+        # reverse = creates url dynamically ( it creates url first then user clicks to it and filter happens)
         
     def __str__(self):
         return self.category_name
