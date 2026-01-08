@@ -1,9 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404,HttpResponse
 from store.models import Product,Variation
 from carts.models import CartItem
-from orders.models import Order
-# from django.core.exceptions import ObjectDoesNotExist
 
+# from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
 

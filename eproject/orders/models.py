@@ -23,6 +23,7 @@ class Order(models.Model):
     payment = models.ForeignKey(Payment,on_delete=models.SET_NULL,blank=True,null=True)
 
     order_number = models.CharField(max_length=20)
+    transaction_uuid = models.CharField(max_length=100,blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=50)

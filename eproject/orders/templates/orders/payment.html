@@ -135,7 +135,7 @@
                         <input value="Make Payment" type="submit" class="btn btn-primary btn-block">
                         </form>
                         {% else %}
-                        <a href="{% url 'payment_success' %}" type="submit" class="btn btn-primary btn-block"> Make Payment </a>
+                        <a href="{% url 'payment_success' %}?order_number={{ order.order_number }}" type="submit" class="btn btn-primary btn-block"> Make Payment </a>
                         {% endif %}
                     </div> <!-- card-body.// -->
                 </div> <!-- card.// -->
