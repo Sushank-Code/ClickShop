@@ -34,7 +34,7 @@ class Order(models.Model):
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50) 
 
-    
+     
     payment_category =  [
         ('esewa','eSewa'),
         ('khalti','Khalti'),

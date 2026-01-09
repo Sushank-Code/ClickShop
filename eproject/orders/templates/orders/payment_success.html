@@ -3,55 +3,99 @@
 
 {% block content %}
 
+<div class="container mt-4 mt-md-5 mb-5">
+  <div class="text-center mb-4">
+    <i class="fas fa-check-circle text-success" style="font-size: 72px;"></i>
+    <h2 class="mt-3">Payment Successful</h2>
+    <a href="{% url 'store' %}" class="btn btn-success mt-3">Shop more</a>
+  </div>
 
-<div class="container" style="margin-top: 50px;">
-    <center><i class="fas fa-check-circle" style="font-size: 72px;margin-bottom: 20px;color: #28A745;"></i></center>
-    <h2 class="text-center">Payment Successful</h2>
-    <br>
-    <div class="text-center">
-        <a href="{% url 'store' %}" class="btn btn-success">Shop more</a>
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-3 p-md-4">
+          
+          <!-- HEADER -->
+          <h3 class="mb-4">Order Invoice</h3>
+
+          <div class="row mb-4">
+            <!-- INVOICED TO -->
+            <div class="col-md-6 mb-3 mb-md-0">
+              <h5 class="mb-3">Invoiced To:</h5>
+              <p class="mb-1">{{ order.full_name }}</p>
+              <p class="mb-1">{{ order.full_address }}</p>
+              <p class="mb-1">{{ order.city }}, {{ order.state }}</p>
+              <p class="mb-1">{{ order.country }}</p>
+              <p class="mb-1">Phone: {{ order.phone }}</p>
+              <p class="mb-0">Email: {{ order.email }}</p>
+            </div>
+
+            <!-- ORDER DETAILS -->
+            <div class="col-md-6">
+              <h5 class="mb-3">Order Details:</h5>
+              <p class="mb-2"><strong>Order Number:</strong><br>{{ order.order_number }}</p>
+              <p class="mb-2"><strong>Payment Method:</strong><br>{{ order.get_payment_option_display }}</p>
+              <p class="mb-0"><strong>Status:</strong><br>{{ order.payment.status }}</p>
+            </div>
+          </div>
+
+          <hr>
+
+          <!-- PRODUCTS TABLE -->
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th class="text-start">Product</th>
+                  <th class="text-center">Quantity</th>
+                  <th class="text-end">Price</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for item in order_products %}
+                <tr>
+                  <td>
+                    <strong>{{ item.product.product_name }}</strong>
+
+                    {% if item.variations.all %}
+                    <div class="text-muted small mt-1">
+                      {% for v in item.variations.all %}
+                      {{ v.variation_category|capfirst }}: {{ v.variation_value|capfirst }}<br>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+                  </td>
+
+                  <td class="text-center align-middle">
+                    {{ item.quantity }}
+                  </td>
+
+                  <td class="text-end align-middle">
+                    Rs. {{ item.product.price }}<br>
+                    <small class="text-muted">each</small>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <hr>
+
+          <!-- TOTALS -->
+          <div class="row">
+            <div class="col-12 text-end">
+              <p class="mb-2"><strong>Sub Total:</strong> Rs. {{ subtotal }}</p>
+              <p class="mb-2"><strong>Tax:</strong> Rs. {{ order.tax }}</p>
+              <h5 class="mb-0"><strong>Total:</strong> Rs. {{ order.order_total }}</h5>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<div class="container"
-    style="margin: 0 auto;width: 50%;padding: 50px;background: #f1f1f1;margin-top: 50px;margin-bottom: 50px;">
-   
-    <h2>Order Invoice</h2>
-
-<p><strong>Order Number:</strong> {{ order.order_number }}</p>
-<p><strong>Payment Method:</strong> {{ order.get_payment_option_display }}</p>
-<p><strong>Status:</strong> {{ order.payment.status }}</p>
-
-<hr>
-
-<table style="width:100%; border-collapse: collapse; margin-top: 15px;">
-  <thead>
-    <tr>
-      <th style="text-align:left; padding:10px; width:60%;">Product</th>
-      <th style="text-align:center; padding:10px; width:20%;">Quantity</th>
-      <th style="text-align:right; padding:10px; width:20%;">Price</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    {% for item in order_products %}
-    <tr>
-      <td style="padding:10px;">{{ item.product.product_name }}</td>
-      <td style="padding:10px; text-align:center;">{{ item.quantity }}</td>
-      <td style="padding:10px; text-align:right;">Rs. {{ item.product_price }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
-<hr>
-
-<p style="text-align:right; font-weight:bold; margin-top:10px;">
-  Total: Rs. {{ order.order_total }}
-</p>
-
-
-</div>
-
-
-{% endblock content%}
+{% endblock content %}

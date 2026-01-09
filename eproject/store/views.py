@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from kartapp.models import Category
 from store.models import Product
+from store.forms import ReviewForm
 from django.core.paginator import Paginator
 from django.db.models import Q
 
@@ -36,6 +37,7 @@ def product_detail(request,category_slug=None,product_slug=None):
             
             categories = get_object_or_404(Category, slug=category_slug)
             single_product = get_object_or_404(Product, slug=product_slug, category=categories,is_available=True)       
+            reviewform = ReviewForm()
         else:
             single_product = None
     
@@ -44,6 +46,7 @@ def product_detail(request,category_slug=None,product_slug=None):
     
     context = {
         'single_product' : single_product,
+        'reviewform':reviewform
     }
     return render(request,'store/product_detail.html',context)
 
@@ -62,4 +65,4 @@ def search(request):
         'product_count' : product_count
     }
     
-    return render(request,'store/store.html',context) 
+    return render(request,'store/store.html',context)   

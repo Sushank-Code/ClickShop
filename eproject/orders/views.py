@@ -117,9 +117,8 @@ def eSewa_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
             'product_code' : product_code,                                     # test product_code
             'signed_field_name': "total_amount,transaction_uuid,product_code",
             'signature': signature,
-            'esewa_url':settings.ESEWA_PAYMENT_URL ,                           # test url
-            'success_url': "http://127.0.0.1:8000/orders/payment_success/",  
-            # goes to success func | If Live,use domain                      
+            'esewa_url':settings.ESEWA_PAYMENT_URL ,                         # test url
+            'success_url': "http://127.0.0.1:8000/orders/payment_success/",  # goes to suc View | Live ,use domain                      
             'failure_url': "http://127.0.0.1:8000/orders/payment_failure/",                        
         }
         return render(request, 'orders/payment.html',context) 
@@ -168,7 +167,7 @@ def verify_esewa_payment(request,payment_info,order):
         None
     
 def Payment_Success(request):
-    data_encoded = request.GET.get("data")          # esewa
+    data_encoded = request.GET.get("data")          # esewa 
     order_number = request.GET.get("order_number")  # Cod
 
     try:
@@ -301,17 +300,20 @@ def order_invoice(request, order_number):
         )
 
         order_products = OrderProduct.objects.filter(order=order)
+        subtotal = 0 
+        for i in order_products:
+            subtotal += i.product.price * i.quantity
 
         context = {
             'order': order,
             'order_products': order_products,
+            'subtotal' : subtotal
         }
 
         return render(request, 'orders/payment_success.html', context)
 
     except Order.DoesNotExist:
         return redirect('home')
-
 
 def Khalti_payment(request,order_number):
     return HttpResponse("Coming Soon !")

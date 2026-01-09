@@ -12,7 +12,7 @@ urlpatterns = [
     path('payment_success/',views.Payment_Success,name='payment_success'),   # required only for verification
     path('payment_failure/',views.Payment_Failure,name='payment_failure'), 
 
-    path('invoice/<str:order_number>/', views.order_invoice, name='order_invoice'),
+    path('invoice/<str:order_number>/', views.order_invoice, name='order_invoice'), 
 
 
 ] 
