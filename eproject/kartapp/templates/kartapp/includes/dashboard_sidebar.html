@@ -1,0 +1,16 @@
+
+{% with request.resolver_match.url_name as url_name %}
+<aside class="col-md-3">
+    <!--   SIDEBAR   -->
+    <ul class="list-group">
+        <a class="list-group-item {% if url_name == 'Dashboard' %}active{% endif %}" href="{% url 'Dashboard' %}"> Dashboard </a>
+        <a class="list-group-item {% if url_name == 'My_Order' %}active{% endif %}" href="{% url 'My_Order' %}"> My Orders </a>
+        <a class="list-group-item {% if url_name == 'Edit_Profile' %}active{% endif %}" href="{% url 'Edit_Profile' %}"> Edit Profile </a>
+        <a class="list-group-item {% if url_name == 'PasswordChange' %}active{% endif %}" href="{% url 'PasswordChange' %}"> Change Password </a>
+    </ul>
+    <br>
+    <a class="btn btn-light btn-block" href="{% url 'Logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log
+            out</span> </a>
+    <!--   SIDEBAR .//END   -->
+</aside>
+{% endwith %}

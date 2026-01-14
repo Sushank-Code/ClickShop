@@ -293,7 +293,7 @@ def Order_Product(request,order,payment):
 @login_required(login_url='Signin')
 def order_invoice(request, order_number):
     try:
-        order = Order.objects.get(
+        order = Order.objects.get(  
             order_number=order_number,
             user=request.user,
             is_ordered=True

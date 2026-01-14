@@ -1,9 +1,12 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from kartapp.models import Category
-from store.models import Product
+from store.models import Product,ReviewRating
+from orders.models import OrderProduct
 from store.forms import ReviewForm
+
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib import messages 
 
 # Create your views here.
  
@@ -40,13 +43,25 @@ def product_detail(request,category_slug=None,product_slug=None):
             reviewform = ReviewForm()
         else:
             single_product = None
-    
     except Exception as e:
         raise e
     
-    context = {
+    if request.user.is_authenticated:
+        try:
+            orderproduct = OrderProduct.objects.filter(user=request.user, product_id=single_product.id).exists()
+        except OrderProduct.DoesNotExist:
+            orderproduct = None
+    else:
+        orderproduct = None
+
+    # Get the review for specific product
+    reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
+    
+    context = { 
         'single_product' : single_product,
-        'reviewform':reviewform
+        'reviewform':reviewform,
+        'orderproduct': orderproduct,
+        'reviews':reviews
     }
     return render(request,'store/product_detail.html',context)
 
@@ -66,3 +81,31 @@ def search(request):
     }
     
     return render(request,'store/store.html',context)   
+
+def submit_review(request, product_id):
+    url = request.META.get('HTTP_REFERER')
+
+    if request.method == 'POST':
+
+        try:
+            review = ReviewRating.objects.get(user__id=request.user.id, product__id=product_id)
+            form = ReviewForm(request.POST, instance=review)
+            form.save()
+            messages.success(request, 'Thank you! Your review has been updated.')
+            return redirect(url)
+        
+        except ReviewRating.DoesNotExist:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                data = form.save(commit=False)
+                data.rating = form.cleaned_data['rating']
+                
+                product = Product.objects.get(id=product_id)
+                data.product = product
+                data.user = request.user
+                
+                data.ip = request.META.get('REMOTE_ADDR')
+                data.save()
+
+                messages.success(request, 'Thank you! Your review has been submitted.')
+                return redirect(url)

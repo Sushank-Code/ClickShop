@@ -50,11 +50,11 @@
                                 <div class="col form-group">
                                     <label>Address 1</label>
                                     <span class="text-danger">*</span>
-                                    <input type="text" name="address1" class="form-control" required>
+                                    <input type="text" name="address1" class="form-control"  value="{{ profile.address_line_1 }}" required>
                                 </div>
                                 <div class="col form-group">
                                     <label>Address 2</label>
-                                    <input type="text" name="address2" class="form-control" placeholder="Optional">
+                                    <input type="text" name="address2" class="form-control" value="{{ profile.address_line_2 }}" placeholder="Optional" >
                                 </div>
                             </div>
 
@@ -62,17 +62,17 @@
                                 <div class="col form-group">
                                     <label>City</label>
                                     <span class="text-danger">*</span>
-                                    <input type="text" name="city" class="form-control" required>
+                                    <input type="text" name="city" class="form-control" value="{{ profile.city }}" required>
                                 </div>
                                 <div class="col form-group">
                                     <label>State</label>
                                     <span class="text-danger">*</span>
-                                    <input type="text" name="state" class="form-control" required>
+                                    <input type="text" name="state" class="form-control" value="{{ profile.state }}" required>
                                 </div>
                                 <div class="col form-group">
                                     <label>Country</label>
                                     <span class="text-danger">*</span>
-                                    <input type="text" name="country" class="form-control" required>
+                                    <input type="text" name="country" class="form-control" value="{{ profile.country }}" required>
                                 </div>
                             </div>
 

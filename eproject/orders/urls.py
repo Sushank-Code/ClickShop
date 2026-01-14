@@ -14,5 +14,4 @@ urlpatterns = [
 
     path('invoice/<str:order_number>/', views.order_invoice, name='order_invoice'), 
 
-
 ] 

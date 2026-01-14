@@ -1,0 +1,61 @@
+{% extends 'kartapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="section-conten padding-y bg">
+
+    {% include 'kartapp/includes/alert.html' %}
+    <div class="container">
+        <div class="row">
+            {% include 'kartapp/includes/dashboard_sidebar.html' %}
+            <main class="col-md-9">
+                <article class="card">
+                    <header class="card-header">
+                        <strong class="d-inline-block mr-3">Your order history</strong>
+
+                    </header>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Add responsive wrapper -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Order #</th>
+                                                <th scope="col">Billing Name</th>
+                                                <th scope="col" class="d-none d-md-table-cell">Phone</th>
+                                                <th scope="col">Total</th>
+                                                <th scope="col" class="d-none d-lg-table-cell">Payment Status</th>
+                                                <th scope="col" class="d-none d-sm-table-cell">Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order in orders %}
+                                            <tr>
+                                                <th scope="row">
+                                                    <a href="{% url 'order_invoice' order.order_number %}">
+                                                        {{order.order_number}}
+                                                    </a>
+                                                </th>
+                                                <td>{{order.full_name}}</td>
+                                                <td class="d-none d-md-table-cell">{{order.phone}}</td>
+                                                <td>${{order.order_total}}</td>
+                                                <td class="d-none d-lg-table-cell">{{order.payment.status}}</td>
+                                                <td class="d-none d-sm-table-cell">{{order.created_at}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> <!-- row.// -->
+                    </div> <!-- card-body .// -->
+                </article> <!-- order-group.// -->
+            </main>
+        </div> <!-- row.// -->
+    </div>
+</section>
+
+{% endblock %}

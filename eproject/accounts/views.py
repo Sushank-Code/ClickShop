@@ -1,9 +1,11 @@
-from django.shortcuts import render,redirect
-from accounts.forms import RegistrationForm,CustomPasswordResetForm,CustomSetPasswordForm
+from django.shortcuts import render,redirect,get_object_or_404
+from accounts.forms import RegistrationForm,CustomPasswordResetForm,CustomSetPasswordForm,UserProfileForm,UserForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages 
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.decorators import login_required
-from accounts.models import Account
+from accounts.models import Account,UserProfile
+from orders.models import Order
 
 # user activation
 from django.contrib.sites.shortcuts import get_current_site
@@ -31,7 +33,7 @@ def registration(request):
             user = rform.save(commit=False)
             user.is_active = False                              # user will be inactive until email is verified
             user.save()
-
+            UserProfile.objects.create(user=user)
             # user activation
 
             current_site = get_current_site(request)
@@ -106,7 +108,59 @@ def logout_view(request):
 
 @login_required(login_url='Signin')
 def dashboard(request):
-    return render(request,'accounts/dashboard.html')
+    order_count = Order.objects.filter(user = request.user,is_ordered = True ).order_by('created_at').count()
+    userprofile = UserProfile.objects.get(user = request.user)
+    context = {
+        'order_count' : order_count ,
+        'userprofile' : userprofile
+    }
+    return render(request,'accounts/dashboard.html',context)
+
+@login_required(login_url='Signin')
+def My_Orders(request):
+    orders = Order.objects.filter(user = request.user,is_ordered = True ).order_by('-created_at')
+    context = {
+        'orders' : orders,
+    }
+    return render(request,'accounts/my_orders.html',context)
+
+@login_required(login_url='Signin')
+def Edit_Profile(request):
+
+    userprofile = get_object_or_404(UserProfile, user=request.user)
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile has been updated.')
+            return redirect('Edit_Profile') 
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=userprofile)
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form, 
+        'userprofile': userprofile,
+    }
+
+    return render(request, 'accounts/edit_profile.html', context)
+
+# Change Password after Logging
+@login_required
+def password_change_view(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            logout(request)
+            messages.success(request,"Password change sucessfully! Login again with new password")
+            return redirect("Signin")
+    else:
+        form = PasswordChangeForm(user = request.user)
+    return render(request,'accounts/password_change.html',{'form':form})
 
 # forgot password
 

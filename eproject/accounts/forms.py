@@ -1,5 +1,5 @@
 from django import forms
-from accounts.models import Account
+from accounts.models import Account,UserProfile
 from django.contrib.auth.forms import UserCreationForm,PasswordResetForm,SetPasswordForm
 from django.core.validators import EmailValidator
 
@@ -117,3 +117,37 @@ class CustomSetPasswordForm(SetPasswordForm):
 
         self.fields['new_password1'].widget.attrs['placeholder'] = 'Create new password'
         self.fields['new_password2'].widget.attrs['placeholder'] = 'Confirm password'
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ['username', 'phone']
+
+    def __init__(self, *args, **kwargs):    
+        super(UserForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+
+    def clean_phone(self): 
+        phone = self.cleaned_data.get('phone')
+
+        if not phone.isdigit():
+            raise forms.ValidationError("Phone must contain only numbers")
+
+        if len(phone) != 10 :
+            raise forms.ValidationError("Phone number must be 10 digits")
+        
+        return phone
+
+class UserProfileForm(forms.ModelForm):
+    
+    profile_picture = forms.ImageField(required=False, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput)
+    
+    class Meta:
+        model = UserProfile
+        fields = ['address_line_1', 'address_line_2', 'city', 'state', 'country', 'profile_picture']
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
