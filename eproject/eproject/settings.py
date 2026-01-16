@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'store',
     'carts',
     'orders',
+    'admin_honeypot',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django_auto_logout.middleware.auto_logout',   # django auto logout package (1)
 ]
 
 ROOT_URLCONF = 'eproject.urls'
@@ -68,8 +71,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'kartapp.context_processors.category_links',             # context_processors
-                'carts.context_processors.Counter',                      # context_processors
+                'kartapp.context_processors.category_links',                 # context_processors
+                'carts.context_processors.Counter',                          # context_processors
+                'django_auto_logout.context_processors.auto_logout_client',  # django auto logout package (2)
             ],
         },
     },
@@ -150,6 +154,13 @@ EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=False, cast=bool)
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 PASSWORD_RESET_TIMEOUT = 3600     # 1hr (used by PasswordResetConfirmView & only work for passwordReset)
+
+# django auto logout package (4) 
+login_url='Signin'
+AUTO_LOGOUT = {'IDLE_TIME': 259200,      # 3 days
+               'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
+               'MESSAGE': 'The session has expired. Please login again to continue.',
+            }
 
 # Payment(ESewa Development)
 # .env

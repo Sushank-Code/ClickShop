@@ -34,7 +34,7 @@ class Product(models.Model):
             count = int(reviews['count'])
         return count
 
-    def __str__(self):
+    def __str__(self):  
         return self.product_name
 
 # custom Manager
@@ -67,8 +67,8 @@ class  ReviewRating(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     user = models.ForeignKey(Account,on_delete=models.CASCADE)
 
-    subject = models.CharField(max_length=100,blank=True)
-    review = models.TextField(max_length=15,blank=True) 
+    subject = models.CharField(max_length=25,blank=True)
+    review = models.TextField(max_length=50,blank=True) 
     rating = models.FloatField()
     ip = models.CharField(max_length=20,blank=True)
     status = models.BooleanField(default=True)
@@ -77,3 +77,14 @@ class  ReviewRating(models.Model):
 
     def __str__(self):
         return self.subject
+
+class ProductGallery(models.Model):
+    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='productgallery/', max_length=255)
+
+    def __str__(self):
+        return self.product.product_name
+
+    class Meta:
+        verbose_name = 'productgallery'
+        verbose_name_plural = 'product gallery'
