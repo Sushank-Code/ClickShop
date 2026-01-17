@@ -9,4 +9,4 @@ def HomeView(request):
     context = {
         'products' : products ,
     }
-    return render(request,'kartapp/home.html',context)
+    # return render(request,'kartapp/home.html',context)
