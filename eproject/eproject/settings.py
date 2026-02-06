@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'store',
     'carts',
     'orders',
+
+    # Third Party app 
     'admin_honeypot',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
