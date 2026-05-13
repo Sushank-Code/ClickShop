@@ -470,6 +470,40 @@ p:last-child {
   color: #3167eb;
 }
 
+.header-search-bar {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: 10px;
+  width: 100%;
+}
+
+.header-search-form {
+  flex: 1 1 auto;
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.header-visual-search {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  min-width: 54px;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  padding-left: 0;
+  padding-right: 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.header-visual-search i {
+  font-size: 1rem;
+  line-height: 1;
+}
+
 /* desktop only */
 /* desktop only .end */
 /* ================ SECTION-FOOTER ==================  */

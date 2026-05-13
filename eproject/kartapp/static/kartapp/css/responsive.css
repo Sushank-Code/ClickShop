@@ -40,7 +40,21 @@
     display: inline-block;
   }
   .section-header .header-main .search {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
+  }
+
+  .header-search-bar {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .header-search-form {
+    flex: 1 1 auto;
+  }
+
+  .header-visual-search {
+    width: 50px;
+    min-width: 50px;
   }
 
   .item-feature {
@@ -85,7 +99,7 @@
 
 @media screen and (max-width:1000px){
     .res{
-      margin-bottom: 16px;
+      margin-bottom: 2px;
       margin-left: 5px;
     }
 }
