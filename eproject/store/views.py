@@ -47,15 +47,19 @@ def product_detail(request,category_slug=None,product_slug=None):
         raise e
     
     if request.user.is_authenticated:
-        try:
-            orderproduct = OrderProduct.objects.filter(user=request.user, product_id=single_product.id).exists()
-        except OrderProduct.DoesNotExist:
-            orderproduct = None
+            orderproduct = OrderProduct.objects.filter(
+                user=request.user,
+                product_id=single_product.id,
+                ordered=True,
+            ).exists()
     else:
         orderproduct = None
 
     # Get the review for specific product
-    reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
+    reviews = ReviewRating.objects.filter(
+        product_id=single_product.id,
+        status=True,
+    ).select_related('user', 'user__userprofile')
 
     # product gallery
     product_gallery = ProductGallery.objects.filter(product_id=single_product.id)
@@ -88,6 +92,21 @@ def search(request):
 
 def submit_review(request, product_id):
     url = request.META.get('HTTP_REFERER')
+    product = get_object_or_404(Product, id=product_id)
+    redirect_url = url or product.get_url()
+
+    if not request.user.is_authenticated:
+        messages.error(request, 'You must be logged in to post a review.')
+        return redirect('Signin')
+
+    has_purchased = OrderProduct.objects.filter(
+        user=request.user,
+        product_id=product_id,
+        ordered=True,
+    ).exists()
+    if not has_purchased:
+        messages.error(request, 'You must purchase this product to post a review.')
+        return redirect(redirect_url)
 
     if request.method == 'POST':
 
@@ -96,7 +115,7 @@ def submit_review(request, product_id):
             form = ReviewForm(request.POST, instance=review)
             form.save()
             messages.success(request, 'Thank you! Your review has been updated.')
-            return redirect(url)
+            return redirect(redirect_url)
         
         except ReviewRating.DoesNotExist:
             form = ReviewForm(request.POST)
@@ -104,12 +123,10 @@ def submit_review(request, product_id):
                 data = form.save(commit=False)
                 data.rating = form.cleaned_data['rating']
                 
-                product = Product.objects.get(id=product_id)
                 data.product = product
                 data.user = request.user
-                
                 data.ip = request.META.get('REMOTE_ADDR')
                 data.save()
 
                 messages.success(request, 'Thank you! Your review has been submitted.')
-                return redirect(url)
+                return redirect(redirect_url)

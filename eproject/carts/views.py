@@ -131,7 +131,7 @@ def checkout(request,total = 0,quantity = 0,tax = 0,grand_total = 0,cart_items =
             
         if cart_items:
             for item in cart_items:    
-                total += (item.product.price * item.quantity)   
+                total += (item.product.price * item.quantity)     
                 quantity += item.quantity
             tax = (2 * total)/100
             grand_total = total + tax

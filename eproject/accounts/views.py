@@ -31,7 +31,7 @@ def registration(request):
         rform = RegistrationForm(request.POST)
         if rform.is_valid():
             user = rform.save(commit=False)
-            user.is_active = False                              # user will be inactive until email is verified
+            user.is_active = False                # user will be inactive until email is verified
             user.save()
             UserProfile.objects.create(user=user)
             # user activation

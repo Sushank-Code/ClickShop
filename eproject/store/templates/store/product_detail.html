@@ -141,7 +141,11 @@
                 {% for review in reviews %}
                 <article class="box mb-3">
                     <div class="icontext w-100">
-                        {% comment %} <img src="./images/avatars/avatar1.jpg" class="img-xs icon rounded-circle"> {% endcomment %}
+                        {% if review.user.userprofile.profile_picture %}
+                        <img src="{{ review.user.userprofile.profile_picture.url }}" class="img-xs icon rounded-circle" alt="{{ review.user.username }}">
+                        {% else %}
+                        <img src="{% static 'kartapp/images/avatars/avatar1.jpg' %}" class="img-xs icon rounded-circle" alt="{{ review.user.username }}">
+                        {% endif %}
                         <div class="text">
                             <span class="date text-muted float-md-right">{{ review.updated_at }}</span>
                             <h5 class="mb-1">{{ review.user.username }} </h5>
@@ -170,7 +174,6 @@
                 {% endif %}
             </div> <!-- col.// -->
         </div> <!-- row.// -->
-
 
     </div> <!-- container .//  -->
 </section>

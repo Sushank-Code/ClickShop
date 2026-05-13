@@ -118,6 +118,7 @@ class CustomSetPasswordForm(SetPasswordForm):
         self.fields['new_password1'].widget.attrs['placeholder'] = 'Create new password'
         self.fields['new_password2'].widget.attrs['placeholder'] = 'Confirm password'
 
+# This form is for Account (Username and Phone ) 
 class UserForm(forms.ModelForm):
     class Meta:
         model = Account
@@ -151,3 +152,4 @@ class UserProfileForm(forms.ModelForm):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
+            
