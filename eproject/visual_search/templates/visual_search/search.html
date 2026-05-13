@@ -1,0 +1,140 @@
+<!-- visual_search/templates/visual_search/search.html -->
+<!-- 
+     Clean, minimal HTML template for the Visual Search feature. 
+     Uses vanilla JS to POST the image and renders results dynamically.
+-->
+
+{% extends 'kartapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="section-content padding-y">
+    <div class="container">
+
+        <header class="section-heading">
+            <h3 class="section-title">Visual Search</h3>
+        </header>
+
+        <div class="row mb-4">
+            <div class="col-md-6 mx-auto">
+                <div class="card p-4 shadow-sm text-center">
+                    <p class="text-muted">Upload an image to find visually similar products.</p>
+                    <form id="visualSearchForm" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input type="file" id="imageInput" name="image" class="form-control" accept="image/*"
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fa fa-camera"></i> Search by Image
+                        </button>
+                    </form>
+
+                    <!-- Loading Spinner -->
+                    <div id="loadingIndicator" class="mt-3" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <p class="text-muted mt-2">Extracting features and searching...</p>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div id="errorMessage" class="mt-3 text-danger" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <h4 id="resultsHeader" style="display: none;" class="mb-3">Search Results</h4>
+        <div id="noResultsMessage" class="alert alert-info" style="display: none;">No visually similar products found.
+        </div>
+
+        <div class="row" id="resultsContainer">
+            <!-- Product cards will be dynamically injected here -->
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("visualSearchForm");
+        const loading = document.getElementById("loadingIndicator");
+        const errorMsg = document.getElementById("errorMessage");
+        const resultsContainer = document.getElementById("resultsContainer");
+        const resultsHeader = document.getElementById("resultsHeader");
+        const noResults = document.getElementById("noResultsMessage");
+
+        // Get CSRF token from the form
+        const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            // Reset UI state
+            loading.style.display = "block";
+            errorMsg.style.display = "none";
+            resultsHeader.style.display = "none";
+            noResults.style.display = "none";
+            resultsContainer.innerHTML = "";
+
+            const formData = new FormData();
+            const fileField = document.querySelector('input[type="file"]');
+            formData.append("image", fileField.files[0]);
+
+            try {
+                const response = await fetch("{% url 'visual_search_api' %}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": csrfToken
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                loading.style.display = "none";
+
+                if (!response.ok) {
+                    // Return descriptive error if index is missing, etc.
+                    throw new Error(data.error || "An error occurred during search.");
+                }
+
+                const results = data.results;
+
+                if (!results || results.length === 0) {
+                    noResults.style.display = "block";
+                    return;
+                }
+
+                resultsHeader.style.display = "block";
+
+                // Build and inject HTML for each product card
+                results.forEach(product => {
+                    const cardHtml = `
+                    <div class="col-md-3 mb-4">
+                        <div class="card card-product-grid shadow-sm h-100">
+                            <a href="${product.detail_url}" class="img-wrap" style="height: 200px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #fff;">
+                                <img src="${product.image_url}" alt="${product.name}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                            </a>
+                            <figcaption class="info-wrap p-3 border-top">
+                                <a href="${product.detail_url}" class="title mb-2 text-dark font-weight-bold">${product.name}</a>
+                                <div class="price-wrap mt-2">
+                                    <span class="price text-success" style="font-size: 1.1rem; font-weight: 600;">Rs ${product.price}</span>
+                                </div>
+                            </figcaption>
+                        </div>
+                    </div>
+                `;
+                    resultsContainer.insertAdjacentHTML('beforeend', cardHtml);
+                });
+
+            } catch (err) {
+                loading.style.display = "none";
+                errorMsg.style.display = "block";
+                errorMsg.textContent = err.message;
+            }
+        });
+    });
+</script>
+{% endblock %}

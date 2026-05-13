@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'store',
     'carts',
     'orders',
+    'visual_search',
 
     # Third Party app 
     'admin_honeypot',
@@ -180,3 +181,8 @@ ESEWA_PRODUCT_CODE = config("ESEWA_PRODUCT_CODE")
 ESEWA_SECRET_KEY = config("ESEWA_SECRET_KEY")
 ESEWA_PAYMENT_URL = config("ESEWA_PAYMENT_URL")
 ESEWA_VERIFY_URL = config("ESEWA_VERIFY_URL")
+
+# Visual Search Feature
+VISUAL_SEARCH_INDEX_PATH = BASE_DIR / 'visual_search' / 'products.index'
+VISUAL_SEARCH_MAP_PATH = BASE_DIR / 'visual_search' / 'index_map.json'
+VISUAL_SEARCH_TOP_K = 3
