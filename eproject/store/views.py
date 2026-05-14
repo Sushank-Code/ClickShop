@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from kartapp.models import Category
-from store.models import Product,ReviewRating,ProductGallery
+from store.models import Product,ReviewRating,ProductGallery,Variation
 from orders.models import OrderProduct
 from store.forms import ReviewForm
 
@@ -15,21 +15,55 @@ def StoreView(request,category_slug=None):
     if category_slug :
         categories = get_object_or_404(Category, slug = category_slug) # single obj
         # print(categories)
-        products = Product.objects.filter(category = categories,is_available = True) 
+        products = Product.objects.filter(category = categories,is_available = True)
 
-        paginator = Paginator(products,2)
-        page = request.GET.get('page')
-        paged_products = paginator.get_page(page)  
-        product_count = products.count()
     else :
-        products = Product.objects.filter(is_available = True).order_by('id')
-        paginator = Paginator(products,3)
-        page = request.GET.get('page')
-        paged_products = paginator.get_page(page)    # return the page objects
-        product_count = products.count()
+        products = Product.objects.filter(is_available = True)
+
+    available_sizes = Variation.objects.filter(
+        product__in=products,
+        variation_category='size',
+        is_active=True,
+    ).values_list('variation_value', flat=True).distinct().order_by('variation_value')
+
+    price_options = {'0', '500', '1000', '1500', '2000', '5000', '10000'}
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    min_price = min_price if min_price in price_options else ''
+    max_price = max_price if max_price in price_options else ''
+    selected_sizes = request.GET.getlist('size')
+
+    if min_price and max_price and int(min_price) > int(max_price):
+        min_price, max_price = max_price, min_price
+
+    if min_price:
+        products = products.filter(price__gte=min_price)
+    if max_price:
+        products = products.filter(price__lte=max_price)
+    if selected_sizes:
+        products = products.filter(
+            variation__variation_category='size',
+            variation__variation_value__in=selected_sizes,
+            variation__is_active=True,
+        ).distinct()
+
+    products = products.order_by('id')
+    paginator = Paginator(products,5 if category_slug else 6)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)    # return the page objects
+    product_count = products.count()
+
+    query_params = request.GET.copy()
+    query_params.pop('page', None)
+
     context = {
         'products' : paged_products ,
-        'product_count' : product_count
+        'product_count' : product_count,
+        'available_sizes': available_sizes,
+        'selected_sizes': selected_sizes,
+        'min_price': min_price,
+        'max_price': max_price,
+        'query_string': query_params.urlencode(),
     }
     return render(request,'store/store.html',context)
 

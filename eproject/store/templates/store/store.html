@@ -21,6 +21,7 @@
 
         <div class="row">
             <aside class="col-md-3">
+                <form method="get" action="">
                 <div class="card">
                     <article class="filter-group">
                         <header class="card-header">
@@ -42,7 +43,71 @@
                             </div> <!-- card-body.// -->
                         </div>
                     </article> <!-- filter-group  .// -->
+                    <article class="filter-group">
+                        <header class="card-header">
+                            <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
+                                <i class="icon-control fa fa-chevron-down"></i>
+                                <h6 class="title">Sizes </h6>
+                            </a>
+                        </header>
+                        <div class="filter-content collapse show" id="collapse_4" style="">
+                            <div class="card-body">
+                                {% for size in available_sizes %}
+                                <label class="checkbox-btn">
+                                    <input type="checkbox" name="size" value="{{ size }}" {% if size in selected_sizes %}checked{% endif %}>
+                                    <span class="btn btn-light"> {{ size }} </span>
+                                </label>
+                                {% empty %}
+                                <p class="text-muted mb-0">No sizes available.</p>
+                                {% endfor %}
+                            </div><!-- card-body.// -->
+                        </div>
+                    </article> <!-- filter-group .// -->
+
+                    <article class="filter-group">
+                        <header class="card-header">
+                            <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
+                                <i class="icon-control fa fa-chevron-down"></i>
+                                <h6 class="title">Price range </h6>
+                            </a>
+                        </header>
+                        <div class="filter-content collapse show" id="collapse_3" style="">
+                            <div class="card-body">
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Min</label>
+                                        <!-- <input class="form-control" placeholder="$0" type="number"> -->
+                                        <select name="min_price" class="mr-2 form-control">
+                                            <option value="">Min</option>
+                                            <option value="0" {% if min_price == '0' %}selected{% endif %}>Rs 0</option>
+                                            <option value="500" {% if min_price == '500' %}selected{% endif %}>Rs 500</option>
+                                            <option value="1000" {% if min_price == '1000' %}selected{% endif %}>Rs 1000</option>
+                                            <option value="1500" {% if min_price == '1500' %}selected{% endif %}>Rs 1500</option>
+                                            <option value="2000" {% if min_price == '2000' %}selected{% endif %}>Rs 2000</option>
+                                            <option value="5000" {% if min_price == '5000' %}selected{% endif %}>Rs 5000</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group text-right col-md-6">
+                                        <label>Max</label>
+                                        <select name="max_price" class="mr-2 form-control">
+                                            <option value="">Max</option>
+                                            <option value="500" {% if max_price == '500' %}selected{% endif %}>Rs 500</option>
+                                            <option value="1000" {% if max_price == '1000' %}selected{% endif %}>Rs 1000</option>
+                                            <option value="1500" {% if max_price == '1500' %}selected{% endif %}>Rs 1500</option>
+                                            <option value="2000" {% if max_price == '2000' %}selected{% endif %}>Rs 2000</option>
+                                            <option value="5000" {% if max_price == '5000' %}selected{% endif %}>Rs 5000</option>
+                                            <option value="10000" {% if max_price == '10000' %}selected{% endif %}>Rs 10000</option>
+                                        </select>
+                                    </div>
+                                </div> <!-- form-row.// -->
+                                <button type="submit" class="btn btn-block btn-primary">Apply</button>
+                                <a href="{{ request.path }}" class="btn btn-block btn-light">Clear</a>
+                            </div><!-- card-body.// -->
+                        </div>
+                    </article> <!-- filter-group .// -->
                 </div> <!-- card.// -->
+                </form>
 
             </aside> <!-- col.// -->
             <main class="col-md-9">
@@ -69,15 +134,20 @@
                                     <a href="{{ i.get_url }}" class="title">{{ i.product_name }}</a>
                                     <div class="price-wrap mt-2">
                                         <span class="price">Rs {{ i.price }}</span>
-                                            <div class="rating-star">
-                                                <span>
-                                                    <i class="fa fa-star{% if i.averageReview < 0.5 %}-o{% elif i.averageReview >= 0.5 and i.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
-                                                    <i class="fa fa-star{% if i.averageReview < 1.5 %}-o{% elif i.averageReview >= 1.5 and i.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
-                                                    <i class="fa fa-star{% if i.averageReview < 2.5 %}-o{% elif i.averageReview >= 2.5 and i.averageReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
-                                                    <i class="fa fa-star{% if i.averageReview < 3.5 %}-o{% elif i.averageReview >= 3.5 and i.averageReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
-                                                    <i class="fa fa-star{% if i.averageReview < 4.5 %}-o{% elif i.averageReview >= 4.5 and i.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
+                                        <div class="rating-star">
+                                            <span>
+                                                <i class="fa fa-star{% if i.averageReview < 0.5 %}-o{% elif i.averageReview >= 0.5 and i.averageReview < 1 %}-half-o {% endif %}"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-star{% if i.averageReview < 1.5 %}-o{% elif i.averageReview >= 1.5 and i.averageReview < 2 %}-half-o {% endif %}"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-star{% if i.averageReview < 2.5 %}-o{% elif i.averageReview >= 2.5 and i.averageReview < 3 %}-half-o {% endif %}"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-star{% if i.averageReview < 3.5 %}-o{% elif i.averageReview >= 3.5 and i.averageReview < 4 %}-half-o {% endif %}"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-star{% if i.averageReview < 4.5 %}-o{% elif i.averageReview >= 4.5 and i.averageReview < 5 %}-half-o {% endif %}"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </div>
                                     </div> <!-- price-wrap.// -->
                                 </div>
                                 <a href="{{ i.get_url }}" class="btn btn-block btn-primary">View Details
@@ -101,7 +171,7 @@
                         <!-- previous -->
                         {% if products.has_previous %}
                         <li class="page-item"><a class="page-link"
-                                href="?page={{ products.previous_page_number }}">Previous</a></li>
+                                href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ products.previous_page_number }}">Previous</a></li>
                         {% else %}
                         <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                         {% endif %}
@@ -111,18 +181,18 @@
                         {% if products.number == k %}
                         <li class="page-item active"><a class="page-link" href="#">{{ k }}</a></li>
                         {% else %}
-                        <li class="page-item"><a class="page-link" href="?page={{ k }}">{{ k }}</a></li>
+                        <li class="page-item"><a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ k }}">{{ k }}</a></li>
                         {% endif %}
                         {% endfor %}
 
                         <!-- next -->
                         {% if products.has_next %}
-                        <li class="page-item"><a class="page-link" 
-                            href="?page={{ products.next_page_number }}">Next</a></li>   
+                        <li class="page-item"><a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ products.next_page_number }}">Next</a>
+                        </li>
                         {% else %}
                         <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                         {% endif %}
-                        
+
 
                     </ul>
                     {% endif %}
