@@ -5,45 +5,190 @@
 <!-- ========================= SECTION MAIN ========================= -->
 <section class="section-intro padding-y-sm">
 	<div class="container">
+		<div id="homeHeroCarousel" class="carousel slide home-hero-carousel" data-ride="carousel" data-interval="5000">
+			<ol class="carousel-indicators home-hero-indicators">
+				<li data-target="#homeHeroCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#homeHeroCarousel" data-slide-to="1"></li>
+				<li data-target="#homeHeroCarousel" data-slide-to="2"></li>
+			</ol>
 
-		<div class="intro-banner-wrap">
-			<img src="{% static 'kartapp/images/banners/cover2.jpg' %}" class="img-fluid rounded">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div class="home-hero-card">
+						<div class="row align-items-center no-gutters">
+							<div class="col-lg-6">
+								<div class="home-hero-content">
+									<span class="home-hero-eyebrow">Fresh arrivals</span>
+									<h2>Upgrade your everyday wardrobe with effortless style.</h2>
+									<p>Explore trending pieces, modern essentials, and comfortable
+										looks for every day.</p>
+									<div class="home-hero-actions">
+										<a href="{% url 'store' %}" class="btn btn-primary">Shop now</a>
+										<a href="{% url 'visual_search_page' %}" class="btn btn-outline-primary">Visual
+											search</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="home-hero-visual">
+									<div class="home-hero-image-slot">
+										<img src="{% static 'kartapp/images/banners/banner1.jpg' %}" alt="New fashion arrivals">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="carousel-item">
+					<div class="home-hero-card">
+						<div class="row align-items-center no-gutters">
+							<div class="col-lg-6">
+								<div class="home-hero-content">
+									<span class="home-hero-eyebrow">Smart shopping</span>
+									<h2>Find outfits faster with category picks and visual search.</h2>
+									<p class="text-left">Browse curated collections, compare styles, and discover your
+										next favorite look in seconds.</p>
+									<div class="home-hero-actions">
+										<a href="{% url 'store' %}" class="btn btn-primary">Browse categories</a>
+										<a href="{% url 'cart' %}" class="btn btn-outline-primary">View cart</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="home-hero-visual">
+									<div class="home-hero-image-slot">
+										<img src="{% static 'kartapp/images/banners/banner2.jpg' %}" alt="Smart shopping collection">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="carousel-item">
+					<div class="home-hero-card">
+						<div class="row align-items-center no-gutters">
+							<div class="col-lg-6">
+								<div class="home-hero-content">
+									<span class="home-hero-eyebrow">Season essentials</span>
+									<h2 class="text-left">Discover modern fashion designed for every season.</h2>
+									<p>From outerwear to casual basics, shop pieces that work across your daily routine.
+									</p>
+									<div class="home-hero-actions">
+										<a href="{% url 'store' %}" class="btn btn-primary">Explore store</a>
+										<a href="{% url 'Dashboard' %}" class="btn btn-outline-primary">My account</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="home-hero-visual">
+									<div class="home-hero-image-slot">
+										<img src="{% static 'kartapp/images/banners/banner3.jpg' %}" alt="Season fashion essentials">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<a class="carousel-control-prev home-hero-control" href="#homeHeroCarousel" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next home-hero-control" href="#homeHeroCarousel" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
 		</div>
 
 	</div> <!-- container //  -->
 </section>
 <!-- ========================= SECTION MAIN END// ========================= -->
 
+<section class="home-category-section">
+	<div class="container">
+		<div class="home-category-heading">
+			<h2>Shop by Category</h2>
+		</div>
+
+		<div class="row home-category-grid">
+			{% for category in links|slice:":6" %}
+			<div class="col-lg-2 col-md-4 col-sm-6 col-6">
+				<a href="{{ category.get_url }}" class="home-category-card">
+					<div class="home-category-media">
+						{% if category.cat_image %}
+						<img src="{{ category.cat_image.url }}" alt="{{ category.category_name }}">
+						{% else %}
+						<div class="home-category-placeholder">Add image</div>
+						{% endif %}
+					</div>
+					<span class="home-category-name">{{ category.category_name }}</span>
+				</a>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+
 <!-- ========================= SECTION  ========================= -->
-<section class="section-name padding-y-sm">
+<section class="home-product-section">
 	<div class="container">
 
-		<header class="section-heading">
-			<a href="{% url 'store' %}" class="btn btn-outline-primary float-right">See all</a>
-			<h3 class="section-title">Popular products</h3>
-		</header><!-- sect-heading -->
+		<div class="home-product-header">
+			<h3 class="home-product-heading">Popular products</h3>
+			<div class="home-product-header-content">
+				<span class="home-product-eyebrow">Featured picks</span>
+			</div>
+			<a href="{% url 'store' %}" class="btn btn-outline-primary home-product-link">See all products</a>
+		</div>
 
 
-		<div class="row">
-			{% for i in products %}
-			<div class="col-md-3">
-				<div class="card card-product-grid">
-					<a href="{{ i.get_url }}" class="img-wrap"> <img src="{{ i.image.url }}"> </a>
-					<figcaption class="info-wrap">
-						<a href="{{ i.get_url }}" class="title">{{ i.product_name }}</a>
-						<div class="price mt-1">Rs {{ i.price }}</div> <!-- price-wrap.// -->
-						    <div class="rating-star">
-								<span>
-									<i class="fa fa-star{% if i.averageReview < 0.5 %}-o{% elif i.averageReview >= 0.5 and i.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
-									<i class="fa fa-star{% if i.averageReview < 1.5 %}-o{% elif i.averageReview >= 1.5 and i.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
-									<i class="fa fa-star{% if i.averageReview < 2.5 %}-o{% elif i.averageReview >= 2.5 and i.averageReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
-									<i class="fa fa-star{% if i.averageReview < 3.5 %}-o{% elif i.averageReview >= 3.5 and i.averageReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
-									<i class="fa fa-star{% if i.averageReview < 4.5 %}-o{% elif i.averageReview >= 4.5 and i.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
-								</span>
-							</div>
+		<div class="row home-product-grid">
+			{% for i in products reversed %}
+			<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+				<article class="home-product-card">
+					<a href="{{ i.get_url }}" class="home-product-media">
+						<img src="{{ i.image.url }}" alt="{{ i.product_name }}">
+					</a>
 
-					</figcaption>
-				</div>
+					<div class="home-product-body">
+						<div class="home-product-meta">
+							<span class="home-product-tag">{{ i.category.category_name }}</span>
+							<span class="home-product-status">{% if i.stock > 0 %}In stock{% else %}<span class="text-danger">Out of stock</span>{% endif %}</span>
+						</div>
+
+						<a href="{{ i.get_url }}" class="home-product-title">{{ i.product_name }}</a>
+
+						{% if i.description %}
+						<p class="home-product-copy">{{ i.description|truncatewords:12 }}</p>
+						{% else %}
+						<p class="home-product-copy">A clean everyday pick curated for modern shopping.</p>
+						{% endif %}
+
+						<div class="home-product-rating">
+							<span class="home-product-stars">
+								<i class="fa fa-star{% if i.averageReview < 0.5 %}-o{% elif i.averageReview >= 0.5 and i.averageReview < 1 %}-half-o {% endif %}"
+									aria-hidden="true"></i>
+								<i class="fa fa-star{% if i.averageReview < 1.5 %}-o{% elif i.averageReview >= 1.5 and i.averageReview < 2 %}-half-o {% endif %}"
+									aria-hidden="true"></i>
+								<i class="fa fa-star{% if i.averageReview < 2.5 %}-o{% elif i.averageReview >= 2.5 and i.averageReview < 3 %}-half-o {% endif %}"
+									aria-hidden="true"></i>
+								<i class="fa fa-star{% if i.averageReview < 3.5 %}-o{% elif i.averageReview >= 3.5 and i.averageReview < 4 %}-half-o {% endif %}"
+									aria-hidden="true"></i>
+								<i class="fa fa-star{% if i.averageReview < 4.5 %}-o{% elif i.averageReview >= 4.5 and i.averageReview < 5 %}-half-o {% endif %}"
+									aria-hidden="true"></i>
+							</span>
+							<span class="home-product-review-count">{{ i.countReview }} reviews</span>
+						</div>
+
+						<div class="home-product-footer">
+							<div class="home-product-price">Rs {{ i.price }}</div>
+							<a href="{{ i.get_url }}" class="btn btn-outline-primary btn-sm">View details</a>
+						</div>
+					</div>
+				</article>
 			</div> <!-- col.// -->
 			{% endfor %}
 		</div> <!-- row.// -->

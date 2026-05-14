@@ -1,22 +1,77 @@
 {% load static %}
 
 <!-- ========================= FOOTER ========================= -->
-<footer class="section-footer border-top">
+<footer class="section-footer site-footer">
+	<div class="footer-accent-bar"></div>
 	<div class="container">
-		<section class="footer-bottom border-top row">
-			<div class="col-md-2">
-				<p class="text-muted"> &copy 2025 ClickShop </p>
+		<section class="footer-main row">
+			<div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+				<h3 class="footer-heading">ClickShop</h3>
+				<p class="footer-description text-left">
+					Discover trusted products, browse curated collections, and enjoy a smooth shopping experience with
+					ClickShop.
+				</p>
+
+				<form action="{% url 'search' %}" class="footer-search-form" method="get">
+					<div class="footer-search-group">
+						<span class="footer-search-icon">
+							<i class="fa fa-search" aria-hidden="true"></i>
+						</span>
+						<input type="text" class="form-control footer-search-input" placeholder="Search products"
+							name="keyword" autocomplete="off">
+					</div>
+				</form>
+
+				<div class="footer-socials">
+					<a aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+					<a aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+					<a aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+					<a aria-label="Phone"><i class="fa fa-phone"></i></a>
+				</div>
 			</div>
-			<div class="col-md-8 text-md-center">
-				<span class="px-2">sushanklamsal.com.np</span>
-				<span class="px-2">+977 9808944642</span>
-				<span class="px-2">Gongabu, Kathmandu</span>
+
+			<div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+				<h4 class="footer-title">Product</h4>
+				<ul class="footer-links list-unstyled">
+					<li><a href="{% url 'store' %}">All Products</a></li>
+					<li><a href="{% url 'visual_search_page' %}">Visual Search</a></li>
+					<li><a href="{% url 'cart' %}">Shopping Cart</a></li>
+				</ul>
 			</div>
-			<div class="col-md-2 text-md-right text-muted">
-				<img src="{% static 'kartapp/images/misc/esewa.png' %}" class="img-fluid" alt="eSewa"
-					style="width: 60px;">
-				<img src="{% static 'kartapp/images/misc/khalti.png' %}" class="img-fluid" alt="khalti"
-					style="width: 70px;">
+
+			<div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+				<h4 class="footer-title">Explore</h4>
+				<ul class="footer-links list-unstyled">
+					<li><a href="{% url 'home' %}">Home</a></li>
+					<li><a href="{% url 'store' %}">Store</a></li>
+					<li><a href="{% url 'Dashboard' %}">Dashboard</a></li>
+					{% if user.is_authenticated %}
+					{% else %}
+					<li><a href="{% url 'Signin' %}">SignIn</a></li>
+					<li><a href="{% url 'Registration' %}">Register</a></li>
+					{% endif %}
+				</ul>
+			</div>
+
+			<div class="col-lg-3 col-md-6">
+				<h4 class="footer-title">Categories</h4>
+				<ul class="footer-links list-unstyled">
+					{% for category in links %}
+					<li><a href="{{ category.get_url }}">{{ category.category_name }}</a></li>
+					{% empty %}
+					<li><a href="{% url 'store' %}">All Products</a></li>
+					<li><a href="{% url 'store' %}">Featured Items</a></li>
+					<li><a href="{% url 'store' %}">Best Sellers</a></li>
+					<li><a href="{% url 'store' %}">New Arrivals</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+		</section>
+
+		<section class="footer-meta">
+			<div class="footer-meta-copy">
+				<span>&copy; 2026 ClickShop</span>
+				<span>Gongabu, Kathmandu</span>
 			</div>
 		</section>
 	</div><!-- //container -->

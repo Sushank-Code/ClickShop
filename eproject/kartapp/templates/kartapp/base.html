@@ -27,12 +27,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
+<body class="site-page">
     {% include 'kartapp/includes/header.html' %}
 
-    {% block content %}
-    {% comment %} content {% endcomment %}
-    {% endblock content %}
+    <main class="site-content">
+        {% block content %}
+        {% comment %} content {% endcomment %}
+        {% endblock content %}
+    </main>
 
     {% include 'kartapp/includes/footer.html' %}
 
