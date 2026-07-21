@@ -1,27 +1,18 @@
-# visual_search/search.py
-# Loads the FAISS index and position→product_id map from disk at module level
-# (singleton). Exposes search_similar() which accepts a PIL image and returns
-# an ordered list of Product IDs that are visually similar to the query image.
-
 import json
-import numpy as np
 from django.conf import settings
 
 from .extractor import extract_features
 
-# ── Module-level singletons ──────────────────────────────────────────────────
 _faiss_index = None
-_id_map = None       # list: FAISS position → Product.pk
-
+_id_map = None      
 
 def _load_index():
-    """Load the FAISS index and id map from disk (called lazily on first search)."""
     global _faiss_index, _id_map
 
     if _faiss_index is not None:
-        return  # Already loaded
+        return  
 
-    import faiss  # imported here so Django starts even if faiss is missing
+    import faiss  
 
     index_path = settings.VISUAL_SEARCH_INDEX_PATH
     map_path = settings.VISUAL_SEARCH_MAP_PATH
@@ -38,7 +29,7 @@ def _load_index():
 
 
 def reload_index():
-    """Force a reload of the FAISS index from disk (call after re-indexing)."""
+    
     global _faiss_index, _id_map
     _faiss_index = None
     _id_map = None
@@ -46,19 +37,7 @@ def reload_index():
 
 
 def search_similar(pil_image, top_k: int | None = None):
-    """
-    Find the top-k most visually similar products to the given image.
-
-    Args:
-        pil_image: PIL.Image.Image query image (any mode).
-        top_k: Number of results to return. Defaults to VISUAL_SEARCH_TOP_K.
-
-    Returns:
-        List of Product primary keys ordered by descending similarity score.
-
-    Raises:
-        FileNotFoundError: If the FAISS index has not been built yet.
-    """
+   
     if top_k is None:
         top_k = getattr(settings, "VISUAL_SEARCH_TOP_K", 10)
 
