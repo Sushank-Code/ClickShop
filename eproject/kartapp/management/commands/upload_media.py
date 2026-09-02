@@ -38,10 +38,10 @@ class Command(BaseCommand):
                     with open(full_path, "rb") as f:
                         default_storage.save(rel_path, f)
                     uploaded += 1
-                    self.stdout.write(self.style.SUCCESS(f"  ✓ Success: {rel_path}"))
+                    self.stdout.write(self.style.SUCCESS(f"  [OK] Success: {rel_path}"))
                 except Exception as exc:
                     failed += 1
-                    self.stdout.write(self.style.ERROR(f"  ✗ Failed: {rel_path} ({exc})"))
+                    self.stdout.write(self.style.ERROR(f"  [FAILED] Failed: {rel_path} ({exc})"))
 
         self.stdout.write(
             self.style.SUCCESS(
