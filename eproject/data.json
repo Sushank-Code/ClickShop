@@ -1,0 +1,1671 @@
+[
+{
+  "model": "kartapp.category",
+  "pk": 1,
+  "fields": {
+    "category_name": "Jackets",
+    "slug": "jackets",
+    "description": "Jackets Category",
+    "cat_image": "categories/jackets.jpg"
+  }
+},
+{
+  "model": "kartapp.category",
+  "pk": 2,
+  "fields": {
+    "category_name": "T-Shirts",
+    "slug": "t-shirts",
+    "description": "T-shirts Category",
+    "cat_image": "categories/tshirts.jpg"
+  }
+},
+{
+  "model": "kartapp.category",
+  "pk": 3,
+  "fields": {
+    "category_name": "Jeans",
+    "slug": "jeans",
+    "description": "Jeans Category",
+    "cat_image": "categories/jeans.jpg"
+  }
+},
+{
+  "model": "kartapp.category",
+  "pk": 4,
+  "fields": {
+    "category_name": "Shirts",
+    "slug": "shirts",
+    "description": "Shirts Category",
+    "cat_image": "categories/shirts.jpg"
+  }
+},
+{
+  "model": "kartapp.category",
+  "pk": 5,
+  "fields": {
+    "category_name": "Shoes",
+    "slug": "shoes",
+    "description": "Shoes Category",
+    "cat_image": "categories/shoes.png"
+  }
+},
+{
+  "model": "kartapp.category",
+  "pk": 6,
+  "fields": {
+    "category_name": "Bag",
+    "slug": "bag",
+    "description": "Bag Category",
+    "cat_image": "categories/Bag.jpg"
+  }
+},
+{
+  "model": "accounts.account",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$5uI4Ew1fNiOwqbdNjJh6uf$b3s8S6DEcMlBx7WV/kxgMPOTypGzxM60XwNw2rVgZn4=",
+    "last_login": "2026-08-08T11:07:13.993Z",
+    "first_name": "sushank",
+    "last_name": "lamsal",
+    "username": "sushankadmin",
+    "email": "sushanklamsal@gmail.com",
+    "phone": "",
+    "is_active": true,
+    "is_staff": true,
+    "is_superuser": true,
+    "date_joined": "2025-09-01T16:53:28.312Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.account",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$3TKS4ixWWfiKgHuE3d5cxQ$YxejkAcYCBm35o4eEloy85vysb4pjhbCVPHWaGl75q8=",
+    "last_login": "2026-08-08T03:28:02.887Z",
+    "first_name": "",
+    "last_name": "",
+    "username": "Sushank",
+    "email": "sushank@gmail.com",
+    "phone": "9808944642",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "date_joined": "2026-05-13T09:15:13.507Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.account",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$VlJO3W2RMl5TXSDqrfGFbR$+S+Y70HYlmpLjP0XHXUdoBAgmuRnkDWUeGSi3uyt9O8=",
+    "last_login": "2026-07-28T17:27:02.358Z",
+    "first_name": "",
+    "last_name": "",
+    "username": "Devkota",
+    "email": "dipeshdevkota@gmail.com",
+    "phone": "9812345678",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "date_joined": "2026-07-28T17:25:36.238Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "sushanklamsal@gmail.com"
+    ],
+    "address_line_1": "",
+    "address_line_2": "",
+    "profile_picture": "",
+    "city": "",
+    "state": "",
+    "country": ""
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "sushank@gmail.com"
+    ],
+    "address_line_1": "",
+    "address_line_2": "",
+    "profile_picture": "userprofile/pic5.png",
+    "city": "",
+    "state": "",
+    "country": ""
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "dipeshdevkota@gmail.com"
+    ],
+    "address_line_1": "",
+    "address_line_2": "",
+    "profile_picture": "",
+    "city": "",
+    "state": "",
+    "country": ""
+  }
+},
+{
+  "model": "store.product",
+  "pk": 1,
+  "fields": {
+    "product_name": "Atx-Jean",
+    "slug": "atx-jean",
+    "description": "Classic denim built for comfort and everyday style and Jeans that shows class",
+    "price": 20,
+    "image": "products/ATX-Jeans.jpg",
+    "stock": 496,
+    "is_available": true,
+    "category": 3,
+    "created_date": "2025-09-02T09:46:07.813Z",
+    "modified_date": "2026-07-28T17:28:23.164Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 2,
+  "fields": {
+    "product_name": "Blue Shirt",
+    "slug": "blue-shirt",
+    "description": "Sharp blue shirts that brings effortless elegance to any look",
+    "price": 200,
+    "image": "products/Blue-Shirt.jpg",
+    "stock": 2000,
+    "is_available": true,
+    "category": 4,
+    "created_date": "2025-09-02T09:48:54.036Z",
+    "modified_date": "2025-09-12T12:01:47.388Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 3,
+  "fields": {
+    "product_name": "Graphic T-shirt",
+    "slug": "graphic-t-shirt",
+    "description": "Everyday wear that speaks your style for t-shirts",
+    "price": 299,
+    "image": "products/Graphic_T-shirt.jpg",
+    "stock": 1499,
+    "is_available": true,
+    "category": 2,
+    "created_date": "2025-09-02T09:50:42.005Z",
+    "modified_date": "2026-07-30T18:53:33.327Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 4,
+  "fields": {
+    "product_name": "Jordan Basketball Shoes",
+    "slug": "jordan-basketball-shoes",
+    "description": "Step up your game with legendary comfort and design heavy basketball shoes",
+    "price": 1199,
+    "image": "products/jordan-true-flight-basketball-shoes.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 5,
+    "created_date": "2025-09-02T09:53:41.591Z",
+    "modified_date": "2025-09-12T12:01:32.192Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 5,
+  "fields": {
+    "product_name": "Mavi Jean",
+    "slug": "mavi-jean",
+    "description": "From casual days to night outs, jeans that fit every vibe",
+    "price": 799,
+    "image": "products/Mavi_jeans.jpg",
+    "stock": 0,
+    "is_available": true,
+    "category": 3,
+    "created_date": "2025-09-02T09:54:40.306Z",
+    "modified_date": "2026-01-15T17:54:44.965Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 6,
+  "fields": {
+    "product_name": "Puma Ferrari Shoes",
+    "slug": "puma-ferrari-shoes",
+    "description": "Sleek Puma Ferrari shoes inspired by motorsport passion",
+    "price": 999,
+    "image": "products/Puma-Ferrari-Shoes.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 5,
+    "created_date": "2025-09-02T09:55:56.970Z",
+    "modified_date": "2026-01-14T13:45:11.908Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 7,
+  "fields": {
+    "product_name": "US Polo Assn Jacket",
+    "slug": "us-polo-assn-jacket",
+    "description": "Crafted for warmth, designed for everyday wear-jackets",
+    "price": 899,
+    "image": "products/US-Polo-Assn_Jacket.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 1,
+    "created_date": "2025-09-02T09:59:31.046Z",
+    "modified_date": "2025-09-12T12:01:19.788Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 8,
+  "fields": {
+    "product_name": "Wrangler Shirt",
+    "slug": "wrangler-shirt",
+    "description": "Your go-to shirts for a polished and timeless style",
+    "price": 599,
+    "image": "products/Wrangler-Shirt.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 4,
+    "created_date": "2025-09-02T10:00:41.223Z",
+    "modified_date": "2026-01-14T13:45:02.652Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 9,
+  "fields": {
+    "product_name": "BackPack",
+    "slug": "backpack",
+    "description": "A double-strap bag carried on the back, designed for hands-free convenience and heavy loads.",
+    "price": 300,
+    "image": "products/BackPack.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 6,
+    "created_date": "2026-01-07T11:43:08.345Z",
+    "modified_date": "2026-01-14T13:44:54.484Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 10,
+  "fields": {
+    "product_name": "Denim Trucker Jacket",
+    "slug": "denim-trucker-jacket",
+    "description": "Blue denim jacket for casual daily wear.",
+    "price": 1299,
+    "image": "products/denim-trucker-jacket.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 1,
+    "created_date": "2026-05-14T07:46:10.475Z",
+    "modified_date": "2026-05-14T08:15:19.143Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 11,
+  "fields": {
+    "product_name": "Quilted Puffer Jacket",
+    "slug": "quilted-puffer-jacket",
+    "description": "Warm quilted puffer jacket for cold weather.",
+    "price": 1599,
+    "image": "products/quilted-puffer-jacket.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 1,
+    "created_date": "2026-05-14T07:46:10.486Z",
+    "modified_date": "2026-05-14T07:48:01.970Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 12,
+  "fields": {
+    "product_name": "Black Bomber Jacket",
+    "slug": "black-bomber-jacket",
+    "description": "Black bomber jacket with a clean casual fit.",
+    "price": 1399,
+    "image": "products/black-bomber-jacket.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 1,
+    "created_date": "2026-05-14T07:46:10.494Z",
+    "modified_date": "2026-05-14T07:48:07.111Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 13,
+  "fields": {
+    "product_name": "Plain White T-Shirt",
+    "slug": "plain-white-t-shirt",
+    "description": "Plain white cotton t-shirt for everyday use.",
+    "price": 349,
+    "image": "products/plain-white-tshirt.jpg",
+    "stock": 1500,
+    "is_available": true,
+    "category": 2,
+    "created_date": "2026-05-14T07:46:10.503Z",
+    "modified_date": "2026-05-14T08:06:23.228Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 14,
+  "fields": {
+    "product_name": "Black Cotton T-Shirt",
+    "slug": "black-cotton-t-shirt",
+    "description": "Black cotton t-shirt with a regular fit.",
+    "price": 399,
+    "image": "products/black-cotton-tshirt.jpg",
+    "stock": 1500,
+    "is_available": true,
+    "category": 2,
+    "created_date": "2026-05-14T07:46:10.511Z",
+    "modified_date": "2026-05-14T08:07:58.215Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 15,
+  "fields": {
+    "product_name": "Striped Crew T-Shirt",
+    "slug": "striped-crew-t-shirt",
+    "description": "Striped crew neck t-shirt for casual outfits.",
+    "price": 449,
+    "image": "products/striped-crew-tshirt.jpg",
+    "stock": 1500,
+    "is_available": true,
+    "category": 2,
+    "created_date": "2026-05-14T07:46:10.520Z",
+    "modified_date": "2026-05-14T08:10:07.835Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 16,
+  "fields": {
+    "product_name": "Slim Fit Blue Jeans",
+    "slug": "slim-fit-blue-jeans",
+    "description": "Blue slim fit jeans with a modern cut.",
+    "price": 899,
+    "image": "products/slim-fit-blue-jeans.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 3,
+    "created_date": "2026-05-14T07:46:10.528Z",
+    "modified_date": "2026-05-14T07:48:15.862Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 17,
+  "fields": {
+    "product_name": "Black Denim Jeans",
+    "slug": "black-denim-jeans",
+    "description": "Black denim jeans for smart casual wear.",
+    "price": 949,
+    "image": "products/black-denim-jean.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 3,
+    "created_date": "2026-05-14T07:46:10.537Z",
+    "modified_date": "2026-05-14T08:23:16.892Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 18,
+  "fields": {
+    "product_name": "Straight Leg Jeans",
+    "slug": "straight-leg-jeans",
+    "description": "Straight leg denim jeans with a comfortable fit.",
+    "price": 999,
+    "image": "products/straight-leg-jeans.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 3,
+    "created_date": "2026-05-14T07:46:10.546Z",
+    "modified_date": "2026-05-14T07:48:21.206Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 19,
+  "fields": {
+    "product_name": "White Oxford Shirt",
+    "slug": "white-oxford-shirt",
+    "description": "White oxford shirt for casual and formal looks.",
+    "price": 699,
+    "image": "products/white-oxford-shirt.png",
+    "stock": 999,
+    "is_available": true,
+    "category": 4,
+    "created_date": "2026-05-14T07:46:10.554Z",
+    "modified_date": "2026-07-30T18:52:14.065Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 20,
+  "fields": {
+    "product_name": "Casual Linen Shirt",
+    "slug": "casual-linen-shirt",
+    "description": "Lightweight linen shirt for warm weather.",
+    "price": 749,
+    "image": "products/casual-linen-shirt.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 4,
+    "created_date": "2026-05-14T07:46:10.562Z",
+    "modified_date": "2026-05-14T08:52:37.204Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 21,
+  "fields": {
+    "product_name": "Lightweight Running Shoes",
+    "slug": "lightweight-running-shoes",
+    "description": "Lightweight running shoes for daily training.",
+    "price": 1499,
+    "image": "products/lightweight-running-shoes.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 5,
+    "created_date": "2026-05-14T07:46:10.570Z",
+    "modified_date": "2026-05-14T08:54:22.833Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 22,
+  "fields": {
+    "product_name": "Brown Leather Sneakers",
+    "slug": "brown-leather-sneakers",
+    "description": "Brown leather sneakers for casual wear.",
+    "price": 1799,
+    "image": "products/brown-leather-sneakers.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 5,
+    "created_date": "2026-05-14T07:46:10.579Z",
+    "modified_date": "2026-05-14T07:48:35.685Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 23,
+  "fields": {
+    "product_name": "White Sports Shoes",
+    "slug": "white-sports-shoes",
+    "description": "White sports shoes with a clean everyday style.",
+    "price": 1299,
+    "image": "products/white-sports-shoes.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 5,
+    "created_date": "2026-05-14T07:46:10.586Z",
+    "modified_date": "2026-05-14T07:48:37.835Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 24,
+  "fields": {
+    "product_name": "Travel Duffel Bag",
+    "slug": "travel-duffel-bag",
+    "description": "Travel duffel bag with spacious storage.",
+    "price": 999,
+    "image": "products/travel-duffel-bag.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 6,
+    "created_date": "2026-05-14T07:46:10.595Z",
+    "modified_date": "2026-05-14T07:48:40.138Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 25,
+  "fields": {
+    "product_name": "Canvas Tote Bag",
+    "slug": "canvas-tote-bag",
+    "description": "Canvas tote bag for shopping and daily use.",
+    "price": 599,
+    "image": "products/canvas-tote-bag.jpg",
+    "stock": 1000,
+    "is_available": true,
+    "category": 6,
+    "created_date": "2026-05-14T07:46:10.603Z",
+    "modified_date": "2026-05-14T07:48:42.401Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "variation_category": "color",
+    "variation_value": "Red",
+    "is_active": true,
+    "created_date": "2025-09-27T08:34:19.252Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 2,
+  "fields": {
+    "product": 1,
+    "variation_category": "color",
+    "variation_value": "Blue",
+    "is_active": true,
+    "created_date": "2025-09-27T08:36:24.771Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 3,
+  "fields": {
+    "product": 1,
+    "variation_category": "color",
+    "variation_value": "Green",
+    "is_active": true,
+    "created_date": "2025-09-27T08:36:33.816Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 4,
+  "fields": {
+    "product": 1,
+    "variation_category": "color",
+    "variation_value": "White",
+    "is_active": true,
+    "created_date": "2025-09-27T13:12:20.262Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 5,
+  "fields": {
+    "product": 1,
+    "variation_category": "size",
+    "variation_value": "Small",
+    "is_active": true,
+    "created_date": "2025-09-27T11:30:38.940Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 6,
+  "fields": {
+    "product": 1,
+    "variation_category": "size",
+    "variation_value": "Medium",
+    "is_active": true,
+    "created_date": "2025-09-27T11:30:48.447Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 7,
+  "fields": {
+    "product": 1,
+    "variation_category": "size",
+    "variation_value": "Large",
+    "is_active": true,
+    "created_date": "2025-09-27T11:30:58.341Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 8,
+  "fields": {
+    "product": 1,
+    "variation_category": "size",
+    "variation_value": "Extra Large",
+    "is_active": true,
+    "created_date": "2025-09-27T11:31:10.245Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 9,
+  "fields": {
+    "product": 9,
+    "variation_category": "color",
+    "variation_value": "Default",
+    "is_active": true,
+    "created_date": "2026-01-07T12:16:44.035Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 10,
+  "fields": {
+    "product": 9,
+    "variation_category": "size",
+    "variation_value": "Default",
+    "is_active": true,
+    "created_date": "2026-01-07T12:16:58.435Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 11,
+  "fields": {
+    "product": 2,
+    "variation_category": "color",
+    "variation_value": "Blue",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.616Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 12,
+  "fields": {
+    "product": 2,
+    "variation_category": "size",
+    "variation_value": "Medium",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.624Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 13,
+  "fields": {
+    "product": 3,
+    "variation_category": "color",
+    "variation_value": "Black",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.633Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 14,
+  "fields": {
+    "product": 3,
+    "variation_category": "size",
+    "variation_value": "Medium",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.641Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 15,
+  "fields": {
+    "product": 4,
+    "variation_category": "color",
+    "variation_value": "Black",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.650Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 16,
+  "fields": {
+    "product": 4,
+    "variation_category": "size",
+    "variation_value": "42",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.657Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 17,
+  "fields": {
+    "product": 5,
+    "variation_category": "color",
+    "variation_value": "Blue",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.667Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 18,
+  "fields": {
+    "product": 5,
+    "variation_category": "size",
+    "variation_value": "Medium",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.674Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 19,
+  "fields": {
+    "product": 6,
+    "variation_category": "color",
+    "variation_value": "Red",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.684Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 20,
+  "fields": {
+    "product": 6,
+    "variation_category": "size",
+    "variation_value": "42",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.693Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 21,
+  "fields": {
+    "product": 7,
+    "variation_category": "color",
+    "variation_value": "Navy",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.702Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 22,
+  "fields": {
+    "product": 7,
+    "variation_category": "size",
+    "variation_value": "Large",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.710Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 23,
+  "fields": {
+    "product": 8,
+    "variation_category": "color",
+    "variation_value": "Blue",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.719Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 24,
+  "fields": {
+    "product": 8,
+    "variation_category": "size",
+    "variation_value": "Large",
+    "is_active": true,
+    "created_date": "2026-05-14T07:46:10.727Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 25,
+  "fields": {
+    "product": 10,
+    "variation_category": "color",
+    "variation_value": "Blue",
+    "is_active": true,
+    "created_date": "2026-05-14T07:47:59.453Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 26,
+  "fields": {
+    "product": 10,
+    "variation_category": "size",
+    "variation_value": "Large",
+    "is_active": true,
+    "created_date": "2026-05-14T07:47:59.462Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 27,
+  "fields": {
+    "product": 11,
+    "variation_category": "color",
+    "variation_value": "Black",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:01.978Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 28,
+  "fields": {
+    "product": 11,
+    "variation_category": "size",
+    "variation_value": "Large",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:01.986Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 29,
+  "fields": {
+    "product": 12,
+    "variation_category": "color",
+    "variation_value": "Black",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:07.119Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 30,
+  "fields": {
+    "product": 12,
+    "variation_category": "size",
+    "variation_value": "Medium",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:07.128Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 31,
+  "fields": {
+    "product": 13,
+    "variation_category": "color",
+    "variation_value": "White",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:09.277Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 32,
+  "fields": {
+    "product": 13,
+    "variation_category": "size",
+    "variation_value": "Medium",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:09.285Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 33,
+  "fields": {
+    "product": 14,
+    "variation_category": "color",
+    "variation_value": "Black",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:11.271Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 34,
+  "fields": {
+    "product": 14,
+    "variation_category": "size",
+    "variation_value": "Medium",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:11.279Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 35,
+  "fields": {
+    "product": 15,
+    "variation_category": "color",
+    "variation_value": "Striped",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:13.802Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 36,
+  "fields": {
+    "product": 15,
+    "variation_category": "size",
+    "variation_value": "Large",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:13.809Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 37,
+  "fields": {
+    "product": 16,
+    "variation_category": "color",
+    "variation_value": "Blue",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:15.870Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 38,
+  "fields": {
+    "product": 16,
+    "variation_category": "size",
+    "variation_value": "Medium",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:15.879Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 39,
+  "fields": {
+    "product": 17,
+    "variation_category": "color",
+    "variation_value": "Black",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:17.711Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 40,
+  "fields": {
+    "product": 17,
+    "variation_category": "size",
+    "variation_value": "Large",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:17.719Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 41,
+  "fields": {
+    "product": 18,
+    "variation_category": "color",
+    "variation_value": "Blue",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:21.216Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 42,
+  "fields": {
+    "product": 18,
+    "variation_category": "size",
+    "variation_value": "Large",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:21.224Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 43,
+  "fields": {
+    "product": 19,
+    "variation_category": "color",
+    "variation_value": "White",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:24.983Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 44,
+  "fields": {
+    "product": 19,
+    "variation_category": "size",
+    "variation_value": "Medium",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:24.992Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 45,
+  "fields": {
+    "product": 20,
+    "variation_category": "color",
+    "variation_value": "Beige",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:29.343Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 46,
+  "fields": {
+    "product": 20,
+    "variation_category": "size",
+    "variation_value": "Large",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:29.352Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 47,
+  "fields": {
+    "product": 21,
+    "variation_category": "color",
+    "variation_value": "Black",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:31.718Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 48,
+  "fields": {
+    "product": 21,
+    "variation_category": "size",
+    "variation_value": "42",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:31.726Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 49,
+  "fields": {
+    "product": 22,
+    "variation_category": "color",
+    "variation_value": "Brown",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:35.696Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 50,
+  "fields": {
+    "product": 22,
+    "variation_category": "size",
+    "variation_value": "42",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:35.704Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 51,
+  "fields": {
+    "product": 23,
+    "variation_category": "color",
+    "variation_value": "White",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:37.844Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 52,
+  "fields": {
+    "product": 23,
+    "variation_category": "size",
+    "variation_value": "41",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:37.852Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 53,
+  "fields": {
+    "product": 24,
+    "variation_category": "color",
+    "variation_value": "Black",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:40.148Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 54,
+  "fields": {
+    "product": 24,
+    "variation_category": "size",
+    "variation_value": "Default",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:40.156Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 55,
+  "fields": {
+    "product": 25,
+    "variation_category": "color",
+    "variation_value": "Natural",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:42.410Z"
+  }
+},
+{
+  "model": "store.variation",
+  "pk": 56,
+  "fields": {
+    "product": 25,
+    "variation_category": "size",
+    "variation_value": "Default",
+    "is_active": true,
+    "created_date": "2026-05-14T07:48:42.419Z"
+  }
+},
+{
+  "model": "store.reviewrating",
+  "pk": 9,
+  "fields": {
+    "product": 1,
+    "user": [
+      "sushank@gmail.com"
+    ],
+    "subject": "Nice Pant",
+    "review": "Nice one",
+    "rating": 3.0,
+    "ip": "127.0.0.1",
+    "status": true,
+    "created_at": "2026-05-13T11:17:43.775Z",
+    "updated_at": "2026-05-13T11:17:43.776Z"
+  }
+},
+{
+  "model": "store.productgallery",
+  "pk": 2,
+  "fields": {
+    "product": 1,
+    "image": "productgallery/atx-jean1.png"
+  }
+},
+{
+  "model": "store.productgallery",
+  "pk": 3,
+  "fields": {
+    "product": 1,
+    "image": "productgallery/atx-jean2.png"
+  }
+},
+{
+  "model": "store.productgallery",
+  "pk": 4,
+  "fields": {
+    "product": 5,
+    "image": "productgallery/mavi-jean1.jpg"
+  }
+},
+{
+  "model": "store.productgallery",
+  "pk": 5,
+  "fields": {
+    "product": 5,
+    "image": "productgallery/mavi-jean2.jpg"
+  }
+},
+{
+  "model": "carts.cartitem",
+  "pk": 94,
+  "fields": {
+    "user": [
+      "sushank@gmail.com"
+    ],
+    "product": 1,
+    "quantity": 1,
+    "is_active": true,
+    "variations": [
+      2,
+      6
+    ]
+  }
+},
+{
+  "model": "orders.payment",
+  "pk": 103,
+  "fields": {
+    "user": [
+      "sushank@gmail.com"
+    ],
+    "payment_id": "2967URK",
+    "transaction_uuid": "",
+    "payment_method": "cod",
+    "amount_paid": "40.8",
+    "status": "PENDING",
+    "created_at": "2026-05-13T09:28:30.507Z"
+  }
+},
+{
+  "model": "orders.payment",
+  "pk": 104,
+  "fields": {
+    "user": [
+      "dipeshdevkota@gmail.com"
+    ],
+    "payment_id": "154079M",
+    "transaction_uuid": "",
+    "payment_method": "cod",
+    "amount_paid": "40.8",
+    "status": "PENDING",
+    "created_at": "2026-07-28T17:28:23.143Z"
+  }
+},
+{
+  "model": "orders.payment",
+  "pk": 105,
+  "fields": {
+    "user": [
+      "sushanklamsal@gmail.com"
+    ],
+    "payment_id": "000GBQC",
+    "transaction_uuid": "f2e02c14-1d9a-4529-863c-0c4fe4f51055",
+    "payment_method": "esewa",
+    "amount_paid": "712.98",
+    "status": "COMPLETE",
+    "created_at": "2026-07-30T18:52:14.036Z"
+  }
+},
+{
+  "model": "orders.payment",
+  "pk": 106,
+  "fields": {
+    "user": [
+      "sushanklamsal@gmail.com"
+    ],
+    "payment_id": "000GBQD",
+    "transaction_uuid": "274df289-a3b9-4506-ae8f-f419f7d27e92",
+    "payment_method": "esewa",
+    "amount_paid": "304.98",
+    "status": "COMPLETE",
+    "created_at": "2026-07-30T18:53:33.305Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 152,
+  "fields": {
+    "user": [
+      "sushank@gmail.com"
+    ],
+    "payment": 103,
+    "order_number": "20260513152",
+    "transaction_uuid": "0631fa8b-709d-491f-8d68-664aee5539c5",
+    "first_name": "Hari",
+    "last_name": "Prasad",
+    "phone": "9808944642",
+    "email": "sushank@gmail.com",
+    "address1": "Gongabu",
+    "address2": "",
+    "country": "Nepal",
+    "state": "Bagmati",
+    "city": "Kathmandu",
+    "payment_option": "cod",
+    "order_total": 40.8,
+    "tax": 0.8,
+    "status": "NEW",
+    "ip": "127.0.0.1",
+    "is_ordered": true,
+    "created_at": "2026-05-13T09:28:24.108Z",
+    "updated_at": "2026-05-13T09:28:30.513Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 153,
+  "fields": {
+    "user": [
+      "sushanklamsal@gmail.com"
+    ],
+    "payment": null,
+    "order_number": "20260514153",
+    "transaction_uuid": "23cf0616-690f-4afc-8687-ea7aed5fb7b3",
+    "first_name": "Hari",
+    "last_name": "Prasad",
+    "phone": "9808944642",
+    "email": "sushanklamsal@gmail.com",
+    "address1": "Gongabu",
+    "address2": "",
+    "country": "Nepal",
+    "state": "Bagmati",
+    "city": "Kathmandu",
+    "payment_option": "esewa",
+    "order_total": 1425.96,
+    "tax": 27.96,
+    "status": "NEW",
+    "ip": "127.0.0.1",
+    "is_ordered": false,
+    "created_at": "2026-05-14T12:36:29.703Z",
+    "updated_at": "2026-05-14T12:36:29.713Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 154,
+  "fields": {
+    "user": [
+      "sushank@gmail.com"
+    ],
+    "payment": null,
+    "order_number": "20260724154",
+    "transaction_uuid": "c143845e-da0c-4312-837c-da5383e0e411",
+    "first_name": "SUSHANK",
+    "last_name": "LAMSAL",
+    "phone": "9808944642",
+    "email": "sushank@gmail.com",
+    "address1": "Gongabu",
+    "address2": "",
+    "country": "Nepal",
+    "state": "Bagmati",
+    "city": "Kathmandu",
+    "payment_option": "esewa",
+    "order_total": 20.4,
+    "tax": 0.4,
+    "status": "NEW",
+    "ip": "127.0.0.1",
+    "is_ordered": false,
+    "created_at": "2026-07-24T08:49:28.912Z",
+    "updated_at": "2026-07-24T08:49:28.919Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 155,
+  "fields": {
+    "user": [
+      "dipeshdevkota@gmail.com"
+    ],
+    "payment": null,
+    "order_number": "20260728155",
+    "transaction_uuid": "1ba3d5d6-edc3-4c92-89dd-dc5d4018ee86",
+    "first_name": "SUSHANK",
+    "last_name": "LAMSAL",
+    "phone": "9812345678",
+    "email": "dipeshdevkota@gmail.com",
+    "address1": "Gongabu",
+    "address2": "",
+    "country": "Nepal",
+    "state": "Bagmati",
+    "city": "Kathmandu",
+    "payment_option": "esewa",
+    "order_total": 40.8,
+    "tax": 0.8,
+    "status": "NEW",
+    "ip": "127.0.0.1",
+    "is_ordered": false,
+    "created_at": "2026-07-28T17:27:47.764Z",
+    "updated_at": "2026-07-28T17:27:47.770Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 156,
+  "fields": {
+    "user": [
+      "dipeshdevkota@gmail.com"
+    ],
+    "payment": 104,
+    "order_number": "20260728156",
+    "transaction_uuid": "865b0040-6994-469a-b1cc-21945fb4a0b9",
+    "first_name": "SUSHANK",
+    "last_name": "LAMSAL",
+    "phone": "9812345678",
+    "email": "dipeshdevkota@gmail.com",
+    "address1": "Gongabu",
+    "address2": "",
+    "country": "Nepal",
+    "state": "Bagmati",
+    "city": "Kathmandu",
+    "payment_option": "cod",
+    "order_total": 40.8,
+    "tax": 0.8,
+    "status": "NEW",
+    "ip": "127.0.0.1",
+    "is_ordered": true,
+    "created_at": "2026-07-28T17:28:21.930Z",
+    "updated_at": "2026-07-28T17:28:23.150Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 157,
+  "fields": {
+    "user": [
+      "sushank@gmail.com"
+    ],
+    "payment": null,
+    "order_number": "20260728157",
+    "transaction_uuid": "c63cf900-c335-4c34-a213-fdcc4f66cdbe",
+    "first_name": "Sushank",
+    "last_name": "Lamsal",
+    "phone": "9808944642",
+    "email": "sushank@gmail.com",
+    "address1": "Hello",
+    "address2": "",
+    "country": "h3",
+    "state": "h2",
+    "city": "h1",
+    "payment_option": "esewa",
+    "order_total": 81.6,
+    "tax": 1.6,
+    "status": "NEW",
+    "ip": "127.0.0.1",
+    "is_ordered": false,
+    "created_at": "2026-07-28T17:56:37.690Z",
+    "updated_at": "2026-07-28T17:56:37.697Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 158,
+  "fields": {
+    "user": [
+      "sushanklamsal@gmail.com"
+    ],
+    "payment": 105,
+    "order_number": "20260731158",
+    "transaction_uuid": "f2e02c14-1d9a-4529-863c-0c4fe4f51055",
+    "first_name": "SUSHANK",
+    "last_name": "LAMSAL",
+    "phone": "9812345678",
+    "email": "sushanklamsal@gmail.com",
+    "address1": "Gongabu",
+    "address2": "",
+    "country": "Nepal",
+    "state": "Bagmati",
+    "city": "Kathmandu",
+    "payment_option": "esewa",
+    "order_total": 712.98,
+    "tax": 13.98,
+    "status": "NEW",
+    "ip": "127.0.0.1",
+    "is_ordered": true,
+    "created_at": "2026-07-30T18:47:08.174Z",
+    "updated_at": "2026-07-30T18:52:14.045Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 159,
+  "fields": {
+    "user": [
+      "sushanklamsal@gmail.com"
+    ],
+    "payment": 106,
+    "order_number": "20260731159",
+    "transaction_uuid": "274df289-a3b9-4506-ae8f-f419f7d27e92",
+    "first_name": "SUSHANK",
+    "last_name": "LAMSAL",
+    "phone": "9812345678",
+    "email": "sushanklamsal@gmail.com",
+    "address1": "Gongabu",
+    "address2": "",
+    "country": "Nepal",
+    "state": "Bagmati",
+    "city": "Kathmandu",
+    "payment_option": "esewa",
+    "order_total": 304.98,
+    "tax": 5.98,
+    "status": "NEW",
+    "ip": "127.0.0.1",
+    "is_ordered": true,
+    "created_at": "2026-07-30T18:53:06.439Z",
+    "updated_at": "2026-07-30T18:53:33.313Z"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 160,
+  "fields": {
+    "user": [
+      "sushank@gmail.com"
+    ],
+    "payment": null,
+    "order_number": "20260808160",
+    "transaction_uuid": "7aac90ae-1e3c-4e81-868f-fbbc1ada1841",
+    "first_name": "Sushank",
+    "last_name": "Lamsal",
+    "phone": "9808944642",
+    "email": "sushank@gmail.com",
+    "address1": "Hello",
+    "address2": "",
+    "country": "h3",
+    "state": "h2",
+    "city": "h1",
+    "payment_option": "esewa",
+    "order_total": 20.4,
+    "tax": 0.4,
+    "status": "NEW",
+    "ip": "127.0.0.1",
+    "is_ordered": false,
+    "created_at": "2026-08-08T02:37:36.891Z",
+    "updated_at": "2026-08-08T02:37:36.903Z"
+  }
+},
+{
+  "model": "orders.orderproduct",
+  "pk": 75,
+  "fields": {
+    "user": [
+      "sushank@gmail.com"
+    ],
+    "payment": 103,
+    "order": 152,
+    "product": 1,
+    "quantity": 2,
+    "product_price": 20.0,
+    "ordered": true,
+    "created_at": "2026-05-13T09:28:30.522Z",
+    "updated_at": "2026-05-13T09:28:30.526Z",
+    "variations": [
+      1,
+      5
+    ]
+  }
+},
+{
+  "model": "orders.orderproduct",
+  "pk": 76,
+  "fields": {
+    "user": [
+      "dipeshdevkota@gmail.com"
+    ],
+    "payment": 104,
+    "order": 156,
+    "product": 1,
+    "quantity": 2,
+    "product_price": 20.0,
+    "ordered": true,
+    "created_at": "2026-07-28T17:28:23.158Z",
+    "updated_at": "2026-07-28T17:28:23.162Z",
+    "variations": [
+      2,
+      5
+    ]
+  }
+},
+{
+  "model": "orders.orderproduct",
+  "pk": 77,
+  "fields": {
+    "user": [
+      "sushanklamsal@gmail.com"
+    ],
+    "payment": 105,
+    "order": 158,
+    "product": 19,
+    "quantity": 1,
+    "product_price": 699.0,
+    "ordered": true,
+    "created_at": "2026-07-30T18:52:14.054Z",
+    "updated_at": "2026-07-30T18:52:14.064Z",
+    "variations": [
+      43,
+      44
+    ]
+  }
+},
+{
+  "model": "orders.orderproduct",
+  "pk": 78,
+  "fields": {
+    "user": [
+      "sushanklamsal@gmail.com"
+    ],
+    "payment": 106,
+    "order": 159,
+    "product": 3,
+    "quantity": 1,
+    "product_price": 299.0,
+    "ordered": true,
+    "created_at": "2026-07-30T18:53:33.323Z",
+    "updated_at": "2026-07-30T18:53:33.326Z",
+    "variations": [
+      13,
+      14
+    ]
+  }
+},
+{
+  "model": "admin_honeypot.loginattempt",
+  "pk": 1,
+  "fields": {
+    "username": "sushank@gmail.com",
+    "ip_address": "127.0.0.1",
+    "session_key": null,
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+    "timestamp": "2026-05-14T07:03:30.044Z",
+    "path": "/admin/login/?next=/admin/"
+  }
+},
+{
+  "model": "admin_honeypot.loginattempt",
+  "pk": 2,
+  "fields": {
+    "username": "sushank@gmail.com",
+    "ip_address": "127.0.0.1",
+    "session_key": null,
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+    "timestamp": "2026-05-14T07:03:50.319Z",
+    "path": "/admin/login/?next=/admin/"
+  }
+}
+]

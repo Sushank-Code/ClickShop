@@ -1,8 +1,9 @@
-import json,os,faiss
+import json, faiss
 from PIL import Image
 from django.conf import settings
 
 from .extractor import extract_features, VECTOR_DIM
+
 
 def build_index():
     from store.models import Product
@@ -21,16 +22,16 @@ def build_index():
 
     print(f"[build_index] Indexing {total} product(s)…")
 
-    index = faiss.IndexFlatIP(VECTOR_DIM)   
-    id_map = []                             
-
+    index = faiss.IndexFlatIP(VECTOR_DIM)
+    id_map = []
     skipped = 0
+
     for i, product in enumerate(products, start=1):
         try:
-            img_path = os.path.join(settings.MEDIA_ROOT, str(product.image))
-            pil_image = Image.open(img_path).convert("RGB")
-            vec = extract_features(pil_image)                      
-            index.add(vec.reshape(1, -1))                           
+            with product.image.open("rb") as f:
+                pil_image = Image.open(f).convert("RGB")
+            vec = extract_features(pil_image)
+            index.add(vec.reshape(1, -1))
             id_map.append(product.pk)
             if i % 50 == 0 or i == total:
                 print(f"[build_index]  {i}/{total} indexed")
@@ -39,12 +40,7 @@ def build_index():
             skipped += 1
 
     faiss.write_index(index, str(index_path))
-
     with open(map_path, "w", encoding="utf-8") as f:
         json.dump(id_map, f)
 
-    print(
-        f"[build_index] Done. Indexed {len(id_map)} products "
-        f"(skipped {skipped}). "
-        f"Index saved to: {index_path}"
-    )
+    print(f"[build_index] Done. Indexed {len(id_map)} products (skipped {skipped}). Index saved to: {index_path}")

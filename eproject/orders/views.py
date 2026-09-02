@@ -118,8 +118,8 @@ def eSewa_payment(request,order_number,total = 0,tax = 0,grand_total = 0):
             'signed_field_name': "total_amount,transaction_uuid,product_code",
             'signature': signature,
             'esewa_url':settings.ESEWA_PAYMENT_URL ,                         # test url
-            'success_url': "http://127.0.0.1:8000/orders/payment_success/",  # goes to suc View | Live ,use domain                      
-            'failure_url': "http://127.0.0.1:8000/orders/payment_failure/",                        
+            'success_url': f"{settings.SITE_URL}/orders/payment_success/",  # goes to suc View | Live ,use domain                      
+            'failure_url': f"{settings.SITE_URL}/orders/payment_failure/",                        
         }
         return render(request, 'orders/payment.html',context) 
     

@@ -27,7 +27,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'kartapp',
     'accounts',
     'store',
@@ -49,10 +50,13 @@ INSTALLED_APPS = [
     # Third Party app 
     'admin_honeypot',
     'django_extensions',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -89,11 +93,24 @@ WSGI_APPLICATION = 'eproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# sqlite3
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# neon 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=config("DATABASE_URL"),
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True,
+    )
 }
 
 
@@ -128,12 +145,17 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# Static & Media Storage Configuration (Django 5.x)
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATIC_URL = 'static/'                     # For development
-
-STATIC_ROOT = BASE_DIR / "staticfiles"     # For Production
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage" if not DEBUG else "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -150,6 +172,7 @@ MESSAGE_TAGS = {messages.ERROR : 'danger'}
 
 # Email (MailTrap development)
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = config("EMAIL_HOST")
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
@@ -183,6 +206,17 @@ ESEWA_PAYMENT_URL = config("ESEWA_PAYMENT_URL")
 ESEWA_VERIFY_URL = config("ESEWA_VERIFY_URL")
 
 # Visual Search Feature
+VISUAL_SEARCH_MODEL_PATH = BASE_DIR / 'visual_search' / 'mobilenetv3_small.onnx'
 VISUAL_SEARCH_INDEX_PATH = BASE_DIR / 'visual_search' / 'products.index'
 VISUAL_SEARCH_MAP_PATH = BASE_DIR / 'visual_search' / 'index_map.json'
 VISUAL_SEARCH_TOP_K = 3
+
+# cloudinary storage
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUD_NAME'),
+    'API_KEY': config('API_KEY'),
+    'API_SECRET': config('API_SECRET'),
+    'PREFIX': 'ClickShop',
+}
+
+SITE_URL = config('SITE_URL', default='http://127.0.0.1:8000')

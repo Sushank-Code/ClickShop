@@ -6,10 +6,11 @@ class VisualSearchConfig(AppConfig):
     verbose_name = "Visual Search"
 
     def ready(self):
-        # Pre-load the feature extractor model when Django starts.
+        # Pre-load the ONNX feature extractor session when Django starts.
         try:
-            from . import extractor  
-            print("[visual_search] MobileNetV3 feature extractor loaded successfully.")
+            from . import extractor
+            extractor._get_session()
+            print("[visual_search] MobileNetV3 ONNX feature extractor loaded successfully.")
         except Exception as exc:
             print(
                 f"[visual_search] WARNING: Could not pre-load feature extractor: {exc}. "
