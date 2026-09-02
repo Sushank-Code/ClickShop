@@ -146,6 +146,7 @@ USE_TZ = True
 
 
 # Static & Media Storage Configuration (Django 5.x)
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STORAGES = {
